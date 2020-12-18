@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  year: 1
+  organisation_id: 1
+  minor_id: 1
+  modules: 1
+  url: MyText
+
+two:
+  year: 1
+  organisation_id: 1
+  minor_id: 1
+  modules: 1
+  url: MyText

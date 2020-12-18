@@ -1,0 +1,2 @@
+class ExchangeRequest < ApplicationRecord
+end

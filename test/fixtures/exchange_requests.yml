@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  requester_id: 1
+  requester_minor_id: 1
+  responder_id: 1
+  responder_minor_id: 1
+  approved_by_responder: false
+  exchange_minor_id: 1
+
+two:
+  requester_id: 1
+  requester_minor_id: 1
+  responder_id: 1
+  responder_minor_id: 1
+  approved_by_responder: false
+  exchange_minor_id: 1
