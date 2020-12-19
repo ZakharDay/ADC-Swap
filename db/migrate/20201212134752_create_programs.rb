@@ -3,6 +3,7 @@ class CreatePrograms < ActiveRecord::Migration[6.1]
     create_table :programs do |t|
       t.string :name
       t.integer :organisation_id
+      t.integer :city_id
       t.text :url
 
       t.timestamps

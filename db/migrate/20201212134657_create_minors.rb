@@ -3,8 +3,12 @@ class CreateMinors < ActiveRecord::Migration[6.1]
     create_table :minors do |t|
       t.integer :start_year
       t.integer :program_id
+      t.integer :city_id
       t.string :name
       t.text :description
+      t.integer :credits
+      t.string :address
+      t.string :responsible
       t.text :url
 
       t.timestamps

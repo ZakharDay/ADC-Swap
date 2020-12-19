@@ -1,0 +1,15 @@
+<h1>Welcome#index</h1>
+<p>Find me in app/views/welcome/index.html.erb</p>
+
+<% ExchangeMinor.all.each do |exchange_minor| %>
+  <%
+    profile = exchange_minor.profile
+    minor = exchange_minor.minor
+  %>
+
+  <%= profile.last_name %>
+  <%= profile.first_name %>
+  <%= profile.middle_name %>
+  <br>
+  <%= link_to minor.name, minor.url, target: 'blank' %>
+<% end %>

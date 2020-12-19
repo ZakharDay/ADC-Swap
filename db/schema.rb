@@ -10,10 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_18_143835) do
+ActiveRecord::Schema.define(version: 2020_12_19_143013) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "cities", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "courses", force: :cascade do |t|
     t.string "name"
@@ -47,8 +53,12 @@ ActiveRecord::Schema.define(version: 2020_12_18_143835) do
   create_table "minors", force: :cascade do |t|
     t.integer "start_year"
     t.integer "program_id"
+    t.integer "city_id"
     t.string "name"
     t.text "description"
+    t.integer "credits"
+    t.string "address"
+    t.string "responsible"
     t.text "url"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -77,6 +87,7 @@ ActiveRecord::Schema.define(version: 2020_12_18_143835) do
   create_table "programs", force: :cascade do |t|
     t.string "name"
     t.integer "organisation_id"
+    t.integer "city_id"
     t.text "url"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -92,6 +103,13 @@ ActiveRecord::Schema.define(version: 2020_12_18_143835) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  end
+
+  create_table "whished_minors", force: :cascade do |t|
+    t.integer "profile_id"
+    t.integer "minor_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
 end
