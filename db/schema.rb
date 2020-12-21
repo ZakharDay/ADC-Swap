@@ -52,6 +52,7 @@ ActiveRecord::Schema.define(version: 2020_12_19_143013) do
 
   create_table "minors", force: :cascade do |t|
     t.integer "start_year"
+    t.integer "organisation_id"
     t.integer "program_id"
     t.integer "city_id"
     t.string "name"
@@ -60,11 +61,14 @@ ActiveRecord::Schema.define(version: 2020_12_19_143013) do
     t.string "address"
     t.string "responsible"
     t.text "url"
+    t.text "details_url"
+    t.boolean "notice", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "organisations", force: :cascade do |t|
+    t.integer "parent_id"
     t.string "name"
     t.text "url"
     t.datetime "created_at", precision: 6, null: false

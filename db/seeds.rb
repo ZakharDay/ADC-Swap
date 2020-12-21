@@ -1,45 +1,15 @@
 require 'curb'
 
 @minor_list_url = 'https://electives.hse.ru/catalog2019'
+@minor_start_year = 2020
 @program_list_url = 'https://www.hse.ru/education/'
+@piter_minor_list = ''
 
 def seed
+  # clean_db
+  # get_program_list
   # get_minor_list
-  clean_db
-  get_program_list
-  #
-  # create_organisation
-  # create_program
-  # create_minor
-  #
-  # create_course(
-  #   'Восточная Азия: цивилизации и современные процессы в обществе',
-  #   2020,
-  #   [1, 2],
-  #   'https://www.hse.ru/edu/courses/416019985'
-  # )
-  #
-  # create_course(
-  #   'Южная и Юго-Восточная Азия: духовная культура',
-  #   2020,
-  #   [3, 4],
-  #   'https://www.hse.ru/edu/courses/416017184'
-  # )
-  #
-  # create_course(
-  #   'Южная и Юго-Восточная Азия: экономика и политика',
-  #   2021,
-  #   [1, 2],
-  #   'https://www.hse.ru/edu/courses/346231893'
-  # )
-  #
-  # create_course(
-  #   'Деловая культура и бизнес стратегии в Азии',
-  #   2021,
-  #   [3, 4],
-  #   'https://www.hse.ru/edu/courses/346231673'
-  # )
-  #
+
   # create_user(1)
   # create_user(2)
   #
@@ -47,6 +17,8 @@ def seed
   # create_exchange_minor(Profile.last)
   # create_exchange_request
   # approve_exchange_request
+
+  # create_wished_minors
 end
 
 def clean_db
@@ -57,15 +29,18 @@ end
 
 def get_program_list
   @city = ''
-  @organisasion = ''
+  @organisation = ''
   @name = ''
   @url = ''
 
   html = Curl.get(@program_list_url)
   body_html = Nokogiri::HTML(html.body_str)
-  post_text_html = body_html.css('.edu-programm__bachelor')
+  text_html = body_html.css('.edu-programm__bachelor')
 
-  post_text_html.children.each do |group|
+  # puts body_html
+  # puts text_html
+
+  text_html.children.each do |group|
     group.children.each do |entry|
       if entry.name == 'div'
         entry.children.each_with_index do |row, index|
@@ -76,7 +51,7 @@ def get_program_list
                 @url = entry['href']
               elsif entry.name == 'div'
                 @city = City.find_or_create_by!(name: entry.css('.edu-programm__city')[0].content)
-                @organisasion = Organisation.find_or_create_by!(name: entry.css('.grey')[0].content)
+                @organisation = Organisation.find_or_create_by!(name: entry.css('.grey')[0].content)
               end
             end
 
@@ -84,7 +59,7 @@ def get_program_list
               name: @name,
               url: @url,
               city_id: @city.id,
-              organisation_id: @organisasion.id
+              organisation_id: @organisation.id
             )
 
             puts "Program just created with id #{program.id}"
@@ -95,104 +70,121 @@ def get_program_list
   end
 end
 
-# def get_minor_list
-#   @city = ''
-#   @faculty = ''
-#
-#   html = Curl.get(@minor_list_url)
-#   body_html = Nokogiri::HTML(html.body_str)
-#   post_text_html = body_html.css('.post__text')
-#
-#   post_text_html.children.each do |entry|
-#     puts entry.name
-#
-#     if entry.name == 'h3'
-#       @city = entry.content.split.map(&:capitalize).join(' ')
-#       puts @city
-#     end
-#
-#     if entry.name == 'h4'
-#       @faculty = entry.content.capitalize
-#       puts @faculty
-#     end
-#
-#     if entry.name == 'p'
-#       entry.children.each do |paragraph_entry|
-#         if paragraph_entry.name == 'a'
-#           puts @city
-#           puts @faculty
-#           name = paragraph_entry.content
-#           url = paragraph_entry[:href]
-#
-#           # City
-#           # name
-#
-#           # Faculty
-#           # name
-#
-#           # Как поправить Санкт-Петербург
-#
-#           # Вывести по группам, как на сайте Вышки
-#
-#           minor = Minor.create!(city: @city, faculty: @faculty, name: name, url: url)
-#
-#           puts name
-#           puts url
-#           puts minor.id
-#         end
-#       end
-#     end
-#
-#     puts "========="
-#   end
-# end
+def get_minor_list
+  @city = ''
+  @program = ''
+  @organisation
 
-def create_organisation
-  o = Organisation.create!(
-    name: 'Департамент зарубежного регионоведения',
-    url: 'https://we.hse.ru/irs/'
-  )
+  @name = ''
+  @description
+  @url = ''
 
-  puts "Organisation just created with id #{o.id}"
+  html = Curl.get(@minor_list_url)
+  body_html = Nokogiri::HTML(html.body_str)
+  text_html = body_html.css('.post__text')
+
+  text_html.children.each do |entry|
+    if entry.name == 'h3'
+      city_name = entry.content.downcase
+      @city = City.where("LOWER(name) = ?", city_name)[0]
+    end
+
+    if entry.name == 'p'
+      entry.children.each do |paragraph_entry|
+        if paragraph_entry.name == 'a'
+          @name = paragraph_entry.content
+          @url = paragraph_entry[:href]
+
+          if @city.name.downcase == 'санкт-петербург'
+            @piter_minor_list = @url
+          else
+            get_minor(@city, @name, @url)
+          end
+        end
+      end
+    end
+  end
 end
 
-def create_program
-  organisation = Organisation.first
+def get_minor(city, name, url)
+  @notice = false
 
-  p = organisation.programs.create!(
-    name: 'Какая-то там программа',
-    url: 'Какая-то ссылка'
-  )
+  html = Curl.get(url)
+  body_html = Nokogiri::HTML(html.body_str)
+  text_html = body_html.css('.lead-in a')[0]
 
-  puts "Program just created with id #{p.id}"
-end
+  unless text_html
+    text_html = body_html.css('.builder-section.builder-section--with_indent0 p:first-child a')[0]
+  end
 
-def create_minor
-  program = Program.first
+  organisation = find_or_create_organisation(text_html.content, text_html[:href])
 
-  m = program.minors.create!(
-    start_year: 2019,
-    name: 'Азия – модели альтернативной глобализации',
-    description: 'Департамент зарубежного регионоведения предлагает уникальную возможность расширить границы своей предметной области в приложении профильных знаний к региональному компоненту.',
-    url: 'https://electives.hse.ru/minor_asia/'
-  )
+  description_block = body_html.css('.lead-in + p')[0]
 
-  puts "Minor just created with id #{m.id}"
-end
+  if description_block
+    description = description_block.content
+  else
+    description = 'Занести руками'
+    @notice = true
+  end
 
-def create_course(name, year, modules, url)
-  minor = Minor.first
-  organisation = Organisation.first
+  details_url = body_html.css('.promo-section a')[0][:href]
 
-  c = minor.courses.create(
-    organisation_id: organisation.id,
+  puts name
+  puts organisation.name
+
+  responsible_block = body_html.css('.promo-section + div .link_dark2')[0]
+
+  unless responsible_block
+    responsible_block = body_html.css('.promo-section + div + div .link_dark2')[0]
+
+    unless responsible_block
+      responsible_block = body_html.css('.promo-section + div + div h4 span')[0]
+
+      unless responsible_block
+        responsible_block = body_html.css('.fa-person__item')[0]
+
+        if responsible_block
+          responsible_block = responsible_block.css('.fa-person__box a')[0]
+        else
+          responsible_block = body_html.css('.white-card h3 a')[0]
+        end
+      end
+    end
+  end
+
+  # if responsible_block && responsible_block.css('.span')[0]
+    # puts "TRUE"
+    # responsible_block = responsible_block.css('.span')[0].remove
+    # responsible_block.search('span').each(&:remove)
+  # end
+
+  responsible = responsible_block.content.strip
+
+  puts responsible
+
+  minor = organisation.minors.create!(
+    city_id: city.id,
     name: name,
-    year: year,
-    modules: modules,
-    url: url
+    description: description,
+    start_year: @minor_start_year,
+    responsible: responsible,
+    url: url,
+    details_url: details_url,
+    notice: @notice
   )
 
-  puts "Course just created with id #{c.id}"
+  puts "Minor just created with id #{minor.id}"
+
+  # credits
+  # address
+end
+
+def find_or_create_organisation(name, url)
+  organisation = Organisation.create_with(url: url).find_or_create_by!(name: name)
+  puts "Organisation just created with id #{organisation.id}"
+
+  return organisation
 end
 
 def create_user(number)
@@ -215,6 +207,19 @@ def create_profile(user)
   )
 
   puts "Profile just created with id #{p.id} for user with id #{p.user.id}"
+end
+
+def create_wished_minors
+  profiles = Profile.all
+
+  profiles.each do |profile|
+    minors = Minor.all.sample(3)
+
+    minors.each do |minor|
+      w = WhishedMinor.create!(profile_id: profile.id, minor_id: minor.id)
+      puts "WhishedMinor just created with id #{w.id}"
+    end
+  end
 end
 
 def create_exchange_minor(profile)
