@@ -14,3 +14,10 @@ fetch("http://localhost:3000/api/v1/exchange_minors/")
   .then((response) => response.json())
   .then((data) => console.log(data));
 ```
+
+# Backend tasks
+
+- Спарсить Питер
+- Спарсить кредиты
+- Найти откуда взять адрес
+- Спарсить курсы
