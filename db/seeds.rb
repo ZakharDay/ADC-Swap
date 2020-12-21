@@ -6,19 +6,19 @@ require 'curb'
 @piter_minor_list = ''
 
 def seed
-  # clean_db
-  # get_program_list
-  # get_minor_list
+  clean_db
+  get_program_list
+  get_minor_list
 
-  # create_user(1)
-  # create_user(2)
-  #
-  # create_exchange_minor(Profile.first)
-  # create_exchange_minor(Profile.last)
-  # create_exchange_request
-  # approve_exchange_request
+  create_user(1)
+  create_user(2)
 
-  # create_wished_minors
+  create_exchange_minor(Profile.first)
+  create_exchange_minor(Profile.last)
+  create_exchange_request
+  approve_exchange_request
+
+  create_wished_minors
 end
 
 def clean_db
