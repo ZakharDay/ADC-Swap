@@ -1,24 +1,16 @@
-# README
+# SETUP
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+```
+rails db:create
+rails db:migrate
+rails db:seed
+rails s
+```
 
-Things you may want to cover:
+## API Call
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+```javascript
+fetch("http://localhost:3000/api/v1/exchange_minors/")
+  .then((response) => response.json())
+  .then((data) => console.log(data));
+```
