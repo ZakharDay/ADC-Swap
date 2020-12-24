@@ -3,7 +3,7 @@ require 'curb'
 @minor_list_url = 'https://electives.hse.ru/catalog2019'
 @minor_start_year = 2020
 @program_list_url = 'https://www.hse.ru/education/'
-@piter_minor_list = ''
+@piter_minor_list = []
 
 def seed
   clean_db
@@ -96,9 +96,10 @@ def get_minor_list
           @url = paragraph_entry[:href]
 
           if @city.name.downcase == 'санкт-петербург'
-            @piter_minor_list = @url
+            spb_minors(@url)
+            puts @piter_minor_list
           else
-            get_minor(@city, @name, @url)
+            # get_minor(@city, @name, @url)
           end
         end
       end
@@ -166,18 +167,200 @@ def get_minor(city, name, url)
   minor = organisation.minors.create!(
     city_id: city.id,
     name: name,
-    description: description,
+    description: 'Заполнить руками',
     start_year: @minor_start_year,
     responsible: responsible,
     url: url,
     details_url: details_url,
-    notice: @notice
+    notice: true
   )
 
   puts "Minor just created with id #{minor.id}"
 
   # credits
   # address
+end
+
+def spb_minors(url)
+  html = Curl.get(url)
+  body_html = Nokogiri::HTML(html.body_str)
+  items = body_html.css('.b-row__item')
+  i = 0
+  items.each do |item|
+    unless i==0 || i==1
+      y = 0
+      item.children.each do |entry|
+        if entry.name == 'div' && y==5
+          entry.children.each do |div_entry|
+            j = 0
+            if div_entry.name = 'p'
+              div_entry.children.each do |paragraph_entry|
+                if paragraph_entry.name == "strong"
+                  paragraph_entry.children.each do |a|
+                    if a.name == 'a'
+                      a.each do |a_it|
+                        if j == 0
+                          @piter_minor_list.push(a.content)
+                          # get_minor_information(a[:href], a.content)
+                          create_spb_minors(a[:href], a.content)
+                        end
+                        j+=1
+                      end
+                    end
+                  end
+                end
+              end
+            end
+          end
+        end
+        y += 1
+      end
+    end
+    i += 1
+  end
+end
+
+def create_spb_minors(url, name)
+  html = Curl.get(url)
+  body_html = Nokogiri::HTML(html.body_str)
+  content = body_html.css('.content__inner')
+  promo = content.css('.button')
+
+
+  responsible = ""
+  details_url = ""
+  description = ""
+  organisation = ""
+
+
+  i=0
+  y=0
+  content.children.each do |child|
+    # puts child
+    if child.name == 'div'
+      div_classes = child[:class].gsub(/\s+/m, ' ').strip.split(" ")
+      div_classes.each do |div_class|
+        if div_class == 'builder-section--with_indent0'
+          child.children.each do |p|
+            if p.name == 'p'
+              if i==0
+                p.children.each do |point|
+                  if point.name == 'a'
+                    organisation = find_or_create_organisation(point.content, point[:href])
+                    puts organisation.name
+                  end
+                end
+              elsif i==1
+                description = p.content
+                i+=1
+              end
+              i+=1
+            end
+          end
+        elsif div_class == 'builder-section' && div_classes.count == 1
+          if y==0
+            child.children.each do |children|
+              if children.name == 'h4'
+                children.children.each do |a|
+                  responsible = a.content
+                end
+              end
+            end
+            y+=1
+          end
+        end
+      end
+    elsif child.name == 'p'
+      child.children.each do |point|
+        if point.name == 'a'
+          details_url =  point[:href]
+        end
+      end
+    end
+  end
+
+  if i!=0
+    if organisation != ''
+      minor = organisation.minors.create!(
+        city_id: @city.id,
+        name: name,
+        description: description,
+        start_year: @minor_start_year,
+        responsible: responsible,
+        url: url,
+        details_url: details_url,
+        notice: @notice
+      )
+      puts "Mionr created with #{minor.name}"
+
+      create_courses(minor.details_url, minor)
+    end
+  else
+    # minor = organisation.minors.create!(
+    #   city_id: @city.id,
+    #   name: name,
+    #   description: description,
+    #   start_year: @minor_start_year,
+    #   responsible: responsible,
+    #   url: url,
+    #   details_url: details_url,
+    #   notice: true
+    # )
+    puts "Error"
+  end
+end
+
+def create_courses(url, minor)
+  page = Nokogiri::HTML(open(url))
+  links = page.css('a').map{ |sublink| sublink['href']}
+
+  courses = []
+
+
+  links.each do |sublink|
+    if sublink
+      if sublink.include? "hse.ru/edu/"
+        courses.push(sublink)
+      end
+    end
+  end
+
+  courses.each do |course|
+    get_cours_information(course, minor)
+  end
+
+end
+
+def get_cours_information(url, minor)
+  page = Nokogiri::HTML(open(url))
+  courses_info = {}
+  page.css('.with-indent1').each do |div_cont|
+    class_arr = div_cont[:class].gsub(/\s+/m, ' ').strip.split(" ")
+    if class_arr.length == 1
+      div_text = div_cont.text
+      div_text = div_text.sub! "\n", ""
+      prop_name, prop_val = div_text.split(':')
+      courses_info[prop_name] = prop_val
+    end
+  end
+
+  # course_create(courses_info, url, minor)
+end
+
+def course_create(course, course_url, minor)
+  url= course_url
+  credits = [course["Кредиты"][0], course["Кредиты"][3]]
+  name = ''
+  year = 0
+  organisation_id = minor.organisation.id
+  minor_id = minor.id
+  mobules = course["Когда читается"]
+
+  puts credits[0]
+
+  puts "00000000000000000000000000"
+  puts credits, organisation_id, minor_id, mobules, url
+  # course = Courses.create!(name: name, year:year, organisation_id:organisation_id, minor_id:minor_id, modules:mobules, url:url)
 end
 
 def find_or_create_organisation(name, url)
