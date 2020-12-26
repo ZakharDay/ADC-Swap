@@ -99,7 +99,7 @@ def get_minor_list
             spb_minors(@url)
             puts @piter_minor_list
           else
-            # get_minor(@city, @name, @url)
+            get_minor(@city, @name, @url)
           end
         end
       end
@@ -201,7 +201,6 @@ def spb_minors(url)
                       a.each do |a_it|
                         if j == 0
                           @piter_minor_list.push(a.content)
-                          # get_minor_information(a[:href], a.content)
                           create_spb_minors(a[:href], a.content)
                         end
                         j+=1
@@ -344,7 +343,7 @@ def get_cours_information(url, minor)
     end
   end
 
-  # course_create(courses_info, url, minor)
+  course_create(courses_info, url, minor)
 end
 
 def course_create(course, course_url, minor)
