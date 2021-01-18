@@ -1,0 +1,9 @@
+<h1>ExchangeMinors#index</h1>
+<p>Find me in app/views/exchange_minors/index.html.erb</p>
+
+<% @exchange_minors.each do |exchange_minor| %>
+  <div>
+    <%= exchange_minor.minor.name %>
+    <%= link_to 'Открыть', exchange_minor %>
+  </div>
+<% end %>

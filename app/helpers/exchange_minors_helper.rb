@@ -1,0 +1,2 @@
+module ExchangeMinorsHelper
+end
