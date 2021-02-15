@@ -1,0 +1,43 @@
+<h2>
+  My requests
+</h2>
+<% ExchangeRequest.where(requester_id: current_user.id).each do |request| %>
+  <p>
+    <%= Minor.find(request.responder_minor_id).name %>
+  </p>
+  <br>
+  <%= Profile.find(request.responder_id).first_name %>
+  <%= Profile.find(request.responder_id).middle_name %>
+  <%= Profile.find(request.responder_id).last_name %>
+  <br>
+  <% puts '+++++++++++++++++++++++' %>
+  <% puts request.approved_by_responder.nil? %>
+  <% if request.approved_by_responder.nil? %>
+    На ваш запрос еще нет ответа
+  <% else %>
+    <%= request.approved_by_responder ? 'Ваш запрос одобрен' : 'Ваш запрос отклонилии' %>
+  <% end %>
+<% end %>
+<br>
+--------------------------------
+<h2>
+  Requests for me
+</h2>
+
+<% ExchangeRequest.where(responder_id: current_user.id).each do |request| %>
+  <p>
+    <%= Minor.find(request.requester_minor_id).name %>
+  </p>
+  <br>
+  <%= Profile.find(request.requester_id).first_name %>
+  <%= Profile.find(request.requester_id).middle_name %>
+  <%= Profile.find(request.requester_id).last_name %>
+  <br>
+  <% if request.approved_by_responder %>
+    Вы одобрили обмен
+    <span><%= link_to 'Отклонить',profile_exchange_request_path(profile_id:request.requester_id, id: request.id, approved: false), method: :patch %></span>
+  <% else %>
+    <%= link_to 'Одобрить',profile_exchange_request_path(profile_id:request.requester_id, id: request.id, approved: true), method: :patch %>
+    <%= link_to 'Отклонить',profile_exchange_request_path(profile_id:request.requester_id, id: request.id, approved: false), method: :patch %>
+  <% end %>
+<% end %>
