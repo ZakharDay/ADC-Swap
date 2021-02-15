@@ -5,4 +5,12 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   has_one :profile
+
+  after_create :create_profile
+
+  def create_profile
+    puts self.id
+    p = Profile.create!(user_id: self.id, minor_id: 1, program_id: 7)
+    ExchangeMinor.create!(profile_id: p.id, minor_id: p.minor.id)
+  end
 end

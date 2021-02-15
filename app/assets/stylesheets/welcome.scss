@@ -1,3 +1,35 @@
 // Place all the styles related to the Welcome controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
+
+form {
+  .field {
+    .select2-container--default .select2-selection--multiple {
+      width: 60vw;
+      padding: 10px;
+      font-size: 15px;
+      background-color: rgba(0, 0, 0, 0);
+      border: none;
+    }
+    .select2.select2-container.select2-container--default.select2-container--below {
+      min-width: 62vw;
+
+      ul li {
+        border-radius: 0;
+        background: rgba(0, 0, 0, 0);
+        padding: 10px;
+        border: 1px solid #000;
+        margin: 5px 0 0 5px;
+
+        span {
+          margin-right: 10px;
+          padding-right: 10px;
+          border: none;
+        }
+        &:last-of-type {
+          border: none;
+        }
+      }
+    }
+  }
+}
