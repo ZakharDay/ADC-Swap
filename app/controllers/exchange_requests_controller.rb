@@ -5,6 +5,7 @@ class ExchangeRequestsController < ApplicationController
   end
 
   def show
+    @message = Message.new
   end
 
   def create

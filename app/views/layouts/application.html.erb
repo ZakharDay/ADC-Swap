@@ -11,8 +11,12 @@
   </head>
 
   <body>
+    <div id="controller" data-controller = "<%= controller.class %>"></div>
+    <div id="action" data-action = "<%= controller.action_name %>"></div>
+    <div id="user-id" data-user-id = "<%= current_user.id %>"></div>
+
     <%= render 'menubar' %>
-    
+
     <%= yield %>
   </body>
 </html>

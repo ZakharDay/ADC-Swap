@@ -17,6 +17,9 @@ Rails.application.routes.draw do
   end
   resources :exchange_requests, only: [:create]
 
+  resources :messages, only: [:new, :create]
+
+
 
   devise_for :users
 

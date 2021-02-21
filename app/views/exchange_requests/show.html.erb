@@ -1,1 +1,45 @@
-My exchanges
+<div id="room_id" data-exchange-id = "<%= @exchange_request.try(:id) %>">
+
+
+<div class="exchange_room">
+  <div class="all-exchanges">
+    My exchanges
+    <br>
+
+    <% ExchangeRequest.where(requester_id: current_user.id).each do |exchange| %>
+    <%= Minor.find(exchange.requester_minor_id).name %>
+    <% end %>
+    <br>
+    ____________________
+    <br>
+    Exchanges for me
+    <% ExchangeRequest.where(responder_id: current_user.id).each do |exchange| %>
+    <%= Minor.find(exchange.requester_minor_id).name %>
+    <% end %>
+  </div>
+
+  <div class="exchange-room-body">
+    <div class="room-header">
+    </div>
+    <div class="messages">
+      <div id="chat">
+        <% @exchange_request.messages.each do |message| %>
+          <% if message.profile_id == current_user.id %>
+            <%= render 'message/my', message:message %>
+          <% else %>
+            <%= render 'message/theirs', message:message %>
+          <% end %>
+        <% end %>
+
+      </div>
+      <div class="message-form">
+        <%= form_for @message, remote: true do |f| %>
+        <%= f.hidden_field :profile_id, :value => current_user.id  %>
+        <%= f.hidden_field :exchange_request_id, :value => @exchange_request.id %>
+        <%= f.text_field :content %>
+        <%= f.submit %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
