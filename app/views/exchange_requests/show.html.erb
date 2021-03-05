@@ -34,12 +34,23 @@
       </div>
       <div class="message-form">
         <%= form_for @message, remote: true do |f| %>
-        <%= f.hidden_field :profile_id, :value => current_user.id  %>
-        <%= f.hidden_field :exchange_request_id, :value => @exchange_request.id %>
-        <%= f.text_field :content %>
-        <%= f.submit %>
+          <%= f.hidden_field :profile_id, :value => current_user.id  %>
+          <%= f.hidden_field :exchange_request_id, :value => @exchange_request.id %>
+          <%= f.text_field :content %>
+          <%= f.submit %>
         <% end %>
       </div>
     </div>
   </div>
+
+  <script type="text/javascript">
+    window.onload = function()
+    {
+      document.getElementById('bottom').scrollIntoView(true);
+    }
+  </script>
+
+  <div style="height: 5000px;">Top</div>
+  <div id="bottom">Bottom</div>
+
 </div>

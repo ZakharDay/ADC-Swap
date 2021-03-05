@@ -18,6 +18,7 @@ class ExchangeRequestsController < ApplicationController
       # approved_by_responder: null,
     )
 
+
     respond_to do |format|
       if @exchange_request.save
         format.html { redirect_to exchange_minor_path(params[:exchange_minor_id])}

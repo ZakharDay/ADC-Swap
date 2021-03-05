@@ -1,10 +1,16 @@
 Rails.application.routes.draw do
+  mount ActionCable.server => '/cable'
+
+
   namespace :api, constraints: { format: 'json' } do
     namespace :v1, constraints: { format: 'json' } do
       resources :exchange_minors, only: [:index, :show], defaults: { format: 'json' }
+      resources :exchange_requests, only: [:index, :show], defaults: { format: 'json' }
       resources :minors, only: [:index, :show], defaults: { format: 'json' }
       resources :login, defaults: { format: 'json' }
-      resources :profiles, only: [:index, :update], defaults: { format: 'json' }
+      resources :profiles, only: [:index, :create], defaults: { format: 'json' }
+      resources :messages, only: [:index, :create], defaults: { format: 'json' }
+      resources :filters, only: [:index, :create], defaults: { format: 'json' }
     end
   end
 
@@ -18,6 +24,8 @@ Rails.application.routes.draw do
   resources :exchange_requests, only: [:create]
 
   resources :messages, only: [:new, :create]
+
+  resources :filters, only: [:new, :index, :update]
 
 
 

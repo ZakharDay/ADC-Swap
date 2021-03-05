@@ -1,0 +1,17 @@
+
+<% if Profile.find(current_user.id).filters.count > 0 %>
+<%= @filter.year %>
+  <%= form_for @filter, remote: true do |f| %>
+    <%= f.hidden_field :profile_id, :value => current_user.id  %>
+    <%= f.number_field :year, :value => (((Date.today>>1).strftime("%Y").to_s.to_i)-@filter.year).to_s %>
+    <%= f.select( :city_id, City.all.collect{ |city| [city.name, city.id]}) %>
+    <%= f.submit %>
+  <% end %>
+<% else %>
+  <%= form_for @newfilter, remote: true do |f| %>
+    <%= f.hidden_field :profile_id, :value => current_user.id  %>
+    <%= f.number_field :year %>
+    <%= f.select( :city_id, City.all.collect{ |city| [city.name, city.id]}) %>
+    <%= f.submit %>
+  <% end %>
+<% end %>

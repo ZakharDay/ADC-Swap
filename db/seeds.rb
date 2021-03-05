@@ -118,64 +118,70 @@ def get_minor(city, name, url)
     text_html = body_html.css('.builder-section.builder-section--with_indent0 p:first-child a')[0]
   end
 
-  organisation = find_or_create_organisation(text_html.content, text_html[:href])
+  if text_html
+    organisation = find_or_create_organisation(text_html.content, text_html[:href])
 
-  description_block = body_html.css('.lead-in + p')[0]
+    description_block = body_html.css('.lead-in + p')[0]
 
-  if description_block
-    description = description_block.content
-  else
-    description = 'Занести руками'
-    @notice = true
-  end
+    if description_block
+      description = description_block.content
+    else
+      description = 'Занести руками'
+      @notice = true
+    end
 
-  details_url = body_html.css('.promo-section a')[0][:href]
+    details_url = body_html.css('.promo-section a')[0][:href]
 
-  puts name
-  puts organisation.name
+    puts name
+    puts organisation.name
 
-  responsible_block = body_html.css('.promo-section + div .link_dark2')[0]
-
-  unless responsible_block
-    responsible_block = body_html.css('.promo-section + div + div .link_dark2')[0]
+    responsible_block = body_html.css('.promo-section + div .link_dark2')[0]
 
     unless responsible_block
-      responsible_block = body_html.css('.promo-section + div + div h4 span')[0]
+      responsible_block = body_html.css('.promo-section + div + div .link_dark2')[0]
 
       unless responsible_block
-        responsible_block = body_html.css('.fa-person__item')[0]
+        responsible_block = body_html.css('.promo-section + div + div h4 span')[0]
 
-        if responsible_block
-          responsible_block = responsible_block.css('.fa-person__box a')[0]
-        else
-          responsible_block = body_html.css('.white-card h3 a')[0]
+        unless responsible_block
+          responsible_block = body_html.css('.fa-person__item')[0]
+
+          if responsible_block
+            responsible_block = responsible_block.css('.fa-person__box a')[0]
+          else
+            responsible_block = body_html.css('.white-card h3 a')[0]
+          end
         end
       end
     end
-  end
 
-  # if responsible_block && responsible_block.css('.span')[0]
+    # if responsible_block && responsible_block.css('.span')[0]
     # puts "TRUE"
     # responsible_block = responsible_block.css('.span')[0].remove
     # responsible_block.search('span').each(&:remove)
-  # end
+    # end
 
-  responsible = responsible_block.content.strip
+    if responsible_block
+      if responsible_block.content
+        responsible = responsible_block.content.strip
 
-  puts responsible
+        puts responsible
 
-  minor = organisation.minors.create!(
-    city_id: city.id,
-    name: name,
-    description: 'Заполнить руками',
-    start_year: @minor_start_year,
-    responsible: responsible,
-    url: url,
-    details_url: details_url,
-    notice: true
-  )
+        minor = organisation.minors.create!(
+          city_id: city.id,
+          name: name,
+          description: 'Заполнить руками',
+          start_year: @minor_start_year,
+          responsible: responsible,
+          url: url,
+          details_url: details_url,
+          notice: true
+        )
 
-  puts "Minor just created with id #{minor.id}"
+        puts "Minor just created with id #{minor.id}"
+      end
+    end
+  end
 
   # credits
   # address
@@ -370,7 +376,7 @@ def find_or_create_organisation(name, url)
 end
 
 def create_user(number)
-  u = User.create!(email: "test#{number}@test.com", password: 'testtest', password_confirmation: 'testtest')
+  u = User.create!(email: "test#{number}@edu.hse.ru", password: 'testtest', password_confirmation: 'testtest')
   puts "User just created with id #{u.id}"
 
   create_profile(u)

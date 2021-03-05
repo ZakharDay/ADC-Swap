@@ -1,23 +1,44 @@
 class Api::V1::MinorsController < ApplicationController
   def index
-    cities = City.all
+      profile = Profile.first
+      cities = City.all
+      page_data = []
 
-    page_data = []
+      filters_minors = []
 
-    cities.each do |city|
-      city_name = city.name
-      minors = city.minors
+      if profile.filters.count > 0
+        filter = profile.filters.first
+        puts(filter.to_json)
+        cities.each do |city|
+          if filter.city_id == city.id
+            city_name = city.name
+            minors = city.minors
+            minors_data = []
+            minors.each do |minor|
+              if minor.start_year == (filter.year + 1)
+                minors_data.push({name: minor.name, id: minor.id, year: minor.start_year, address: minor.address, credits:minor.credits, url: api_v1_minor_url(minor.id)})
+              end
+            end
+            data = {city: city_name, minors:minors_data}
+            page_data << data
 
-      minors_data = []
-      minors.each do |minor|
-        minors_data.push({name: minor.name, id: minor.id, year: minor.start_year, address: minor.address, credits:minor.credits, url: api_v1_minor_url(minor.id)})
+          end
+         end
+      else
+        cities.each do |city|
+            city_name = city.name
+            minors = city.minors
+
+            minors_data = []
+            minors.each do |minor|
+              minors_data.push({name: minor.name, id: minor.id, year: minor.start_year, address: minor.address, credits:minor.credits, url: api_v1_minor_url(minor.id)})
+            end
+
+            data = {city: city_name, minors:minors_data}
+            # data[:url] = api_v1_exchange_minor_url(exchange_minor)
+            page_data << data
+        end
       end
-
-      data = {city: city_name, minors:minors_data}
-      # data[:url] = api_v1_exchange_minor_url(exchange_minor)
-      page_data << data
-    end
-
 
     render json: page_data
   end

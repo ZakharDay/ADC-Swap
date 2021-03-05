@@ -1,3 +1,6 @@
+__________________________________________________
+<%= link_to "Filters", filters_path %>
+__________________________________________________
 <% ExchangeMinor.all.each do |exchange_minor| %>
   <% if exchange_minor.profile.published %>
     <%
