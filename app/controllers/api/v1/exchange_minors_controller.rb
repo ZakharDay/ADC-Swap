@@ -1,24 +1,48 @@
 class Api::V1::ExchangeMinorsController < ApplicationController
+
   def index
-    profile = Profile.first
     exchange_minors_data = []
-    exchange_minors = ExchangeMinor.all
     filters_exchange_minors = []
 
-    if profile.filters.count > 0
-      filter = profile.filters.first
-      puts(filter.to_json)
-      exchange_minors.each do |exchange_minor|
-        puts(exchange_minor.minor.city_id)
-        puts(exchange_minor.minor.start_year)
-        if exchange_minor.minor.city_id == filter.city_id and exchange_minor.minor.start_year == (filter.year + 1)
-          filters_exchange_minors.push(exchange_minor)
-        end
-       end
+    if user_signed_in?
+      puts "USER IS SIGNED IN SOMEHOW"
+
+      # session
+
+      # if profile.filters.any?
+      #   filter = profile.filters.first
+      #   # puts(filter.to_json)
+      #   exchange_minors.each do |exchange_minor|
+      #     # puts(exchange_minor.minor.city_id)
+      #     # puts(exchange_minor.minor.start_year)
+      #     if exchange_minor.minor.city_id == filter.city_id and exchange_minor.minor.start_year == (filter.year + 1)
+      #       filters_exchange_minors.push(exchange_minor)
+      #     end
+      #    end
+      # else
+      #   filters_exchange_minors = exchange_minors
+      # end
     else
-      filters_exchange_minors = exchange_minors
+      # guest session
+
+      guest = Guest.find_or_create_by!(token: form_authenticity_token)
+
+      if guest.filter
+        # filters = guest.filter
+        exchange_minors = ExchangeMinor.first
+      else
+        # filters = {
+        #   city_id: default_city.id,
+        #   year: default_year
+        # }
+
+        exchange_minors = ExchangeMinor.all
+      end
+
+      # exchange_minors = ExchangeMinor.all
     end
-    filters_exchange_minors.each do |exchange_minor|
+
+    exchange_minors.each do |exchange_minor|
       if exchange_minor.profile.published
         data = exchange_minor.card_index
         data[:url] = api_v1_exchange_minor_url(exchange_minor)
@@ -26,7 +50,7 @@ class Api::V1::ExchangeMinorsController < ApplicationController
       end
     end
 
-    render json: exchange_minors_data
+    render json: { exchange_minors: exchange_minors_data, authenticity_token: guest.token}
   end
 
   def show
