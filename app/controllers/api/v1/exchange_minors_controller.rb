@@ -1,12 +1,14 @@
-class Api::V1::ExchangeMinorsController < ApplicationController
+class Api::V1::ExchangeMinorsController < Api::V1::ApplicationController
 
   def index
     puts 'TOKENS FROM IOS APP'
-    puts params[:devise_token]
+    puts params[:device_token]
     puts params[:authenticity_token]
     puts 'TOKENS FROM IOS APP'
+
+    exchange_minors = ExchangeMinor.all
     exchange_minors_data = []
-    filters_exchange_minors = []
+    filtered_exchange_minors = []
 
     if user_signed_in?
       puts "USER IS SIGNED IN SOMEHOW"
@@ -29,24 +31,24 @@ class Api::V1::ExchangeMinorsController < ApplicationController
     else
       # guest session
 
-      # guest = Guest.find_or_create_by!(token: SecureRandom.uuid)
+      guest = Guest.find_by(device_token: params[:device_token])
+      filter = guest.filter
 
-      if guest.filter
-        # filters = guest.filter
-        exchange_minors = ExchangeMinor.first
+      if filter.city_id != nil
+        exchange_minors.each do |exchange_minor|
+          if exchange_minor.minor.city_id == filter.city_id && exchange_minor.minor.start_year == (filter.year + 1)
+            filtered_exchange_minors << exchange_minor
+          end
+        end
       else
-        # filters = {
-        #   city_id: default_city.id,
-        #   year: default_year
-        # }
-
-        exchange_minors = ExchangeMinor.all
+        exchange_minors.each do |exchange_minor|
+          filtered_exchange_minors << exchange_minor
+        end
       end
-
-      # exchange_minors = ExchangeMinor.all
     end
 
     exchange_minors.each do |exchange_minor|
+      # TODO Почему published — настройка профиля, а не exchange_minor?
       if exchange_minor.profile.published
         data = exchange_minor.card_index
         data[:url] = api_v1_exchange_minor_url(exchange_minor)
@@ -56,8 +58,6 @@ class Api::V1::ExchangeMinorsController < ApplicationController
 
     render json: {
       exchange_minors: exchange_minors_data
-      # devise_token: guest.token,
-      # authenticity_token: form_authenticity_token
     }
   end
 

@@ -1,3 +1,3 @@
 class Guest < ApplicationRecord
-  belongs_to :filter, optional: true
+  belongs_to :filter
 end

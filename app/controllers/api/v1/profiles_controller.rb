@@ -1,4 +1,4 @@
-class Api::V1::ProfilesController < ApplicationController
+class Api::V1::ProfilesController < Api::V1::ApplicationController
   def index
     profile_id = rand(Profile.count)
 

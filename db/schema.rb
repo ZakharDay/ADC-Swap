@@ -59,7 +59,8 @@ ActiveRecord::Schema.define(version: 2021_03_06_131520) do
   end
 
   create_table "guests", force: :cascade do |t|
-    t.text "token"
+    t.text "device_token"
+    t.text "authenticity_token"
     t.integer "filter_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

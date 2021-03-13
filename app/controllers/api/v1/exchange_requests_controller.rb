@@ -1,4 +1,4 @@
-class Api::V1::ExchangeRequestsController < ApplicationController
+class Api::V1::ExchangeRequestsController < Api::V1::ApplicationController
 
   def index
     profile_count = User.count
