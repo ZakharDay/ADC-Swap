@@ -1,6 +1,10 @@
 class Api::V1::ExchangeMinorsController < ApplicationController
 
   def index
+    puts 'TOKENS FROM IOS APP'
+    puts params[:devise_token]
+    puts params[:authenticity_token]
+    puts 'TOKENS FROM IOS APP'
     exchange_minors_data = []
     filters_exchange_minors = []
 
@@ -25,7 +29,7 @@ class Api::V1::ExchangeMinorsController < ApplicationController
     else
       # guest session
 
-      guest = Guest.find_or_create_by!(token: form_authenticity_token)
+      # guest = Guest.find_or_create_by!(token: SecureRandom.uuid)
 
       if guest.filter
         # filters = guest.filter
@@ -50,7 +54,11 @@ class Api::V1::ExchangeMinorsController < ApplicationController
       end
     end
 
-    render json: { exchange_minors: exchange_minors_data, authenticity_token: guest.token}
+    render json: {
+      exchange_minors: exchange_minors_data
+      # devise_token: guest.token,
+      # authenticity_token: form_authenticity_token
+    }
   end
 
   def show

@@ -1,13 +1,17 @@
 Rails.application.routes.draw do
   mount ActionCable.server => '/cable'
 
-
   namespace :api, constraints: { format: 'json' } do
     namespace :v1, constraints: { format: 'json' } do
+      resources :login, defaults: { format: 'json' } do
+        collection do
+          get 'guest'
+        end
+      end
+
       resources :exchange_minors, only: [:index, :show], defaults: { format: 'json' }
       resources :exchange_requests, only: [:index, :show], defaults: { format: 'json' }
       resources :minors, only: [:index, :show], defaults: { format: 'json' }
-      resources :login, defaults: { format: 'json' }
       resources :profiles, only: [:index, :create], defaults: { format: 'json' }
       resources :messages, only: [:index, :create], defaults: { format: 'json' }
       resources :filters, only: [:index, :create], defaults: { format: 'json' }
