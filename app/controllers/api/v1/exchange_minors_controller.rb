@@ -32,6 +32,8 @@ class Api::V1::ExchangeMinorsController < Api::V1::ApplicationController
       # guest session
 
       guest = Guest.find_by(device_token: params[:device_token])
+      puts "0000000000000000000000000000000000000"
+      puts Guest.all
       filter = guest.filter
 
       if filter.city_id != nil

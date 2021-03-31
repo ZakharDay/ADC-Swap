@@ -10,7 +10,7 @@ Rails.application.routes.draw do
       end
 
       resources :exchange_minors, only: [:index, :show], defaults: { format: 'json' }
-      resources :exchange_requests, only: [:index, :show], defaults: { format: 'json' }
+      resources :exchange_requests, only: [:index, :show, :create], defaults: { format: 'json' }
       resources :minors, only: [:index, :show], defaults: { format: 'json' }
       resources :profiles, only: [:index, :create], defaults: { format: 'json' }
       resources :messages, only: [:index, :create], defaults: { format: 'json' }
