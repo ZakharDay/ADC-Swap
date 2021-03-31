@@ -15,6 +15,7 @@ class ExchangeRequestsController < ApplicationController
       responder_id: params[:id_master_of_minor],
       responder_minor_id: params[:exchange_minor_id],
       exchange_minor_id: current_user.profile.minor_id,
+      status: 'start'
       # approved_by_responder: null,
     )
 
@@ -32,9 +33,9 @@ class ExchangeRequestsController < ApplicationController
   end
 
   def update
-
     respond_to do |format|
-      if @exchange_request.update(approved_by_responder: params[:approved])
+      status = params[:status] ? params[:status] : 'process'
+      if @exchange_request.update(approved_by_responder: params[:approved], status: status, responder_status: params[:responder_status], requester_status: params[:requester_status], time_of_change_responder_status: Date.today, time_of_change_requester_status: Date.today)
         format.html { redirect_to profile_exchange_requests_path,  notice: 'Exchange request was successfully updated.' }
         format.json { render :show, status: :ok, location: @exchange_request }
       else

@@ -7,18 +7,95 @@
     <br>
 
     <% ExchangeRequest.where(requester_id: current_user.id).each do |exchange| %>
-    <%= Minor.find(exchange.requester_minor_id).name %>
+      <%= Minor.find(exchange.requester_minor_id).name %>
     <% end %>
     <br>
     ____________________
     <br>
     Exchanges for me
     <% ExchangeRequest.where(responder_id: current_user.id).each do |exchange| %>
-    <%= Minor.find(exchange.requester_minor_id).name %>
+      <%= Minor.find(exchange.requester_minor_id).name %>
     <% end %>
   </div>
 
   <div class="exchange-room-body">
+
+    <%= @exchange_request.status %>
+
+    <br>
+
+    <% unless @exchange_request.requester_status == 3 && @exchange_request.responder_status %>
+      <% if current_user.id === @exchange_request.requester_id %>
+        <% if @exchange_request.status == nil %>
+          <p>Ожидаем ответа от студента</p>
+        <% elsif @exchange_request.status == 'start' %>
+          <p>Вы отправили запрос на обмен</p>
+        <% elsif @exchange_request.status == 'process' %>
+          your status -----------------------------------------
+          <%= @exchange_request.requester_status %>
+          <br>
+          student status -------------------------------
+          <%= @exchange_request.responder_status %>
+          <br>
+
+          <% if @exchange_request.requester_status != 3 %>
+            <%= link_to 'Следующий шаг',profile_exchange_request_path(profile_id:@exchange_request.requester_id, id: @exchange_request.id, responder_status: @exchange_request.responder_status, requester_status: @exchange_request.requester_status + 1), method: :patch %>
+            <% if @exchange_request.requester_status > 1 %>
+              <%= link_to 'Предыдущий шаг',profile_exchange_request_path(profile_id:@exchange_request.requester_id, id: @exchange_request.id, responder_status: @exchange_request.responder_status, requester_status: @exchange_request.requester_status - 1), method: :patch %>
+            <% end %>
+          <% else %>
+            Поздравляем вы выполнили все шаги для обмена
+            <%= link_to 'Предыдущий шаг',profile_exchange_request_path(profile_id:@exchange_request.requester_id, id: @exchange_request.id, responder_status: @exchange_request.responder_status, requester_status: @exchange_request.requester_status - 1), method: :patch %>
+          <% end %>
+        <% elsif @exchange_request.status == 'rejected' %>
+           <p>Ваш запрос отклонили</p>
+        <% elsif @exchange_request.status == 'impossible to complete' %>
+          <p>Обмен прерван</p>
+          <%= link_to 'Отмена', profile_exchange_request_path(id: @exchange_request.id, status: 'process'), method: :patch %>
+        <% end %>
+      <% else %>
+        <% if @exchange_request.status == 'start' %>
+          <%= link_to 'Одобрить',profile_exchange_request_path(profile_id:@exchange_request.requester_id, id: @exchange_request.id, status: 'process',approved: true, responder_status: 1, requester_status: 1), method: :patch %>
+          <%= link_to 'Отклонить',profile_exchange_request_path(profile_id:@exchange_request.requester_id, id: @exchange_request.id, status: 'rejected',approved: false, responder_status: 0, requester_status: 0), method: :patch %>
+        <% elsif @exchange_request.status == 'process' %>
+          <% puts '0000000000000000000000000000000000000000000' %>
+          <% puts @exchange_request.to_json %>
+          your status -----------------------------------------
+          <%= @exchange_request.responder_status %>
+          <br>
+          student status -------------------------------
+          <%= @exchange_request.requester_status %>
+          <br>
+
+          <% if @exchange_request.responder_status != 3 %>
+            <%= link_to 'Следующий шаг',profile_exchange_request_path(profile_id:current_user.id, id: @exchange_request.id, requester_status: @exchange_request.requester_status, responder_status: @exchange_request.responder_status + 1), method: :patch %>
+            <% if @exchange_request.responder_status > 1 %>
+              <%= link_to 'Предыдущий шаг',profile_exchange_request_path(profile_id:current_user.id, id: @exchange_request.id, requester_status: @exchange_request.requester_status, responder_status: @exchange_request.responder_status - 1), method: :patch %>
+            <% end %>
+          <% else %>
+            Поздравляем вы выполнили все шаги для обмена
+            <%= link_to 'Предыдущий шаг',profile_exchange_request_path(profile_id:current_user.id, id: @exchange_request.id, requester_status: @exchange_request.requester_status, responder_status: @exchange_request.responder_status - 1), method: :patch %>
+          <% end %>
+        <% elsif @exchange_request.status == 'impossible to complete' %>
+          <p>Обмен прерван</p>
+          <%= link_to 'Отмена', profile_exchange_request_path(id: @exchange_request.id, status: 'process'), method: :patch %>
+        <% elsif @exchange_request.status == 'rejected' %>
+           <p>Вы отклонили запрос</p>
+           <%= link_to 'Одобрить',profile_exchange_request_path(profile_id:@exchange_request.requester_id, id: @exchange_request.id, status: 'process',approved: true, responder_status: 1, requester_status: 1), method: :patch %>
+        <% end %>
+      <% end %>
+    <% else %>
+      <% @exchange_request.update(status: 'complete') %>
+      Ваш обмен завершен
+    <% end %>
+
+
+    <br>
+    <% if @exchange_request.status != 'impossible to complete' && @exchange_request.status == 'process' %>
+      <%= link_to 'Не возможно завершить обмен', profile_exchange_request_path(id: @exchange_request.id, status: 'impossible to complete'), method: :patch %>
+    <% end %>
+    <br>
+
     <div class="room-header">
     </div>
     <div class="messages">

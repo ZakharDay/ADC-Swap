@@ -12,10 +12,10 @@ class Api::V1::ExchangeRequestsController < Api::V1::ApplicationController
     exchange_request_data = {requests_for_profile_data: {}, requests_from_profile_data: {}, profile_id: profile.id}
 
     requests_for_profile = ExchangeRequest.where responder_id: profile.id
-    exchange_request_data[:requests_for_profile_data] = filling_index_data(requests_for_profile)
+    exchange_request_data[:requests_for_profile_data] = filling_index_data(requests_for_profile, profile)
 
     requests_from_profile = ExchangeRequest.where requester_id: profile.id
-    exchange_request_data[:requests_from_profile_data] = filling_index_data(requests_from_profile)
+    exchange_request_data[:requests_from_profile_data] = filling_index_data(requests_from_profile, profile)
 
     render json: exchange_request_data
   end
@@ -26,17 +26,19 @@ class Api::V1::ExchangeRequestsController < Api::V1::ApplicationController
     render json: exchange_request_data
   end
 
-  def filling_index_data(requests)
+  def filling_index_data(requests, user)
     request_data = []
     requests.each do |exchange_request|
+      student_id = exchange_request.responder_id == user.id ? exchange_request.requester_id : exchange_request.responder_id
+      student = Profile.find(student_id)
       data = {requester_id: exchange_request.requester_id,
               requester_minor_id: exchange_request.requester_minor_id,
               responder_id: exchange_request.responder_id,
-              responder_name: Profile.find(exchange_request.responder_id).first_name,
               responder_minor_id: exchange_request.responder_minor_id,
               responder_minor_name: Minor.find(Profile.find(exchange_request.responder_id).minor_id).name,
               exchange_minor_id: exchange_request.exchange_minor_id,
               approved_by_responder: exchange_request.approved_by_responder,
+              student_name: student.first_name,
               url: api_v1_exchange_request_url(exchange_request)
             }
       request_data << data

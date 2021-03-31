@@ -16,7 +16,7 @@ def seed
   create_exchange_minor(Profile.first)
   create_exchange_minor(Profile.last)
   create_exchange_request
-  approve_exchange_request
+  # approve_exchange_request
 
   create_wished_minors
 end
@@ -429,17 +429,18 @@ def create_exchange_request
     responder_id: second_user.id,
     responder_minor_id: second_user.profile.minor_id,
     exchange_minor_id: exchange_minor.id,
+    status: 'start', 
     approved_by_responder: false,
   )
 
   puts "ExchangeRequest just created with id #{e.id} and is not approved #{e.approved_by_responder}"
 end
 
-def approve_exchange_request
-  e = ExchangeRequest.first
-  e.update_attribute(:approved_by_responder, true)
-
-  puts "ExchangeRequest with id #{e.id} just updated and is not approved #{e.approved_by_responder}"
-end
+# def approve_exchange_request
+#   e = ExchangeRequest.first
+#   e.update_attribute(:approved_by_responder, true)
+#
+#   puts "ExchangeRequest with id #{e.id} just updated and is not approved #{e.approved_by_responder}"
+# end
 
 seed

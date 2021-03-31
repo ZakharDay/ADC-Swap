@@ -8,16 +8,12 @@
         <%= Minor.find(request.responder_minor_id).name %>
       </p>
       <br>
-      <%= Profile.find(request.responder_id).first_name %>
-      <%= Profile.find(request.responder_id).middle_name %>
-      <%= Profile.find(request.responder_id).last_name %>
+      <%= request.status %>
       <br>
-      <% puts '+++++++++++++++++++++++' %>
-      <% puts request.approved_by_responder.nil? %>
-      <% if request.approved_by_responder.nil? %>
-      На ваш запрос еще нет ответа
+      <% unless request.approved_by_responder == nil %>
+        <%= request.approved_by_responder ? 'Ваш запрос одобрен' : 'Ваш запрос отклонилии' %>
       <% else %>
-      <%= request.approved_by_responder ? 'Ваш запрос одобрен' : 'Ваш запрос отклонилии' %>
+        На ваш запрос пока нет ответа
       <% end %>
     </div>
   <% end %>
@@ -33,16 +29,14 @@
       <%= Minor.find(request.requester_minor_id).name %>
     </p>
     <br>
-    <%= Profile.find(request.requester_id).first_name %>
-    <%= Profile.find(request.requester_id).middle_name %>
-    <%= Profile.find(request.requester_id).last_name %>
+    <%= request.status %>
     <br>
     <% if request.approved_by_responder %>
       Вы одобрили обмен
-      <span><%= link_to 'Отклонить',profile_exchange_request_path(profile_id:request.requester_id, id: request.id, approved: false), method: :patch %></span>
+      <span><%= link_to 'Отклонить',profile_exchange_request_path(profile_id:request.requester_id, id: request.id, status: 'rejected',approved: false), method: :patch %></span>
     <% else %>
-      <%= link_to 'Одобрить',profile_exchange_request_path(profile_id:request.requester_id, id: request.id, approved: true), method: :patch %>
-      <%= link_to 'Отклонить',profile_exchange_request_path(profile_id:request.requester_id, id: request.id, approved: false), method: :patch %>
+      <%= link_to 'Одобрить',profile_exchange_request_path(profile_id:request.requester_id, id: request.id, status: 'process',approved: true, responder_status: 1, requester_status: 1), method: :patch %>
+      <%= link_to 'Отклонить',profile_exchange_request_path(profile_id:request.requester_id, id: request.id, status: 'rejected',approved: false, responder_status: 0, requester_status: 0), method: :patch %>
     <% end %>
   <% end %>
 <% end %>
