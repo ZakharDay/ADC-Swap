@@ -12,9 +12,6 @@ class Api::V1::ProfilesController < Api::V1::ApplicationController
 
     profile_data = {
       id: profile.id,
-      first_name: profile.first_name,
-      middle_name: profile.middle_name,
-      last_name: profile.last_name,
       year: profile.education_year,
       minor: Minor.find(profile.minor_id).name,
       city: City.find(Program.find(profile.program_id).city_id).name,

@@ -1,13 +1,7 @@
 class Api::V1::ExchangeRequestsController < Api::V1::ApplicationController
 
   def index
-    profile_count = User.count
-    random_id = rand(profile_count) + 1
-    if random_id == 3
-      random_id = 2
-    end
-
-    profile = Profile.find(random_id)
+    profile = Profile.find(1)
 
     exchange_request_data = {requests_for_profile_data: {}, requests_from_profile_data: {}, profile_id: profile.id}
 
@@ -31,8 +25,8 @@ class Api::V1::ExchangeRequestsController < Api::V1::ApplicationController
   def filling_index_data(requests, user)
     request_data = []
     requests.each do |exchange_request|
-      student_id = exchange_request.responder_id == user.id ? exchange_request.requester_id : exchange_request.responder_id
-      student = Profile.find(student_id)
+      # student_id = exchange_request.responder_id == user.id ? exchange_request.requester_id : exchange_request.responder_id
+      # student = Profile.find(student_id)
       data = {
               id: exchange_request.id,
               requester_id: exchange_request.requester_id,
@@ -45,7 +39,6 @@ class Api::V1::ExchangeRequestsController < Api::V1::ApplicationController
               exchange_minor_id: exchange_request.exchange_minor_id,
               approved_by_responder: exchange_request.approved_by_responder,
               status: exchange_request.status,
-              student_name: student.first_name,
               url: api_v1_exchange_request_url(exchange_request)
             }
       request_data << data
@@ -54,17 +47,32 @@ class Api::V1::ExchangeRequestsController < Api::V1::ApplicationController
   end
 
   def create
-    puts '000000000000000000000000000000000000'
-    if params[:action] == 'update'
+    if params[:process] == 'changeUSerStatus'
+      exchange_request = ExchangeRequest.find(params[:id])
+      if params[:userID] == exchange_request.requester_id
+        exchange_request.update!(requester_status: params[:newStatus])
+      else
+        exchange_request.update!(responder_status: params[:newStatus])
+      end
+    elsif params[:process] == 'approved'
       puts params
-    #   exchange_request = ExchangeRequest.find(params[:id])
-    #   puts exchange_request
-    #   if params[:role] == 'requester'
-    #     exchange_request.update!(requester_status: params[:newStatus])
-    #   else
-    #     exchange_request.update!(responder_status: params[:newStatus])
-    #   end
-    #   puts exchange_request
+      exchange_request = ExchangeRequest.find(params[:id])
+      if params[:approved]
+        exchange_request.update!(approved_by_responder: true, responder_status: 1, requester_status: 1, status:"process")
+      else
+        exchange_request.update!(approved_by_responder: false, status:"rejected")
+      end
+    elsif params[:process] == 'create'
+      puts params
+      @exchange_request = ExchangeRequest.create!(
+        requester_id: params[:userID],
+        requester_minor_id: Profile.find(params[:userID]).minor.id,
+        responder_id: params[:student_id],
+        responder_minor_id: params[:id],
+        exchange_minor_id: params[:id],
+        status: 'start'
+      #   # approved_by_responder: null,
+      )
     end
   end
 end

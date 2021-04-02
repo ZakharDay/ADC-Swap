@@ -384,9 +384,6 @@ end
 
 def create_profile(user)
   p = Profile.create!(
-    first_name: 'first_name',
-    middle_name: 'middle_name',
-    last_name: 'last_name',
     education_year: 2,
     program_id: Program.first.id,
     minor_id: Minor.first.id,
@@ -429,7 +426,7 @@ def create_exchange_request
     responder_id: second_user.id,
     responder_minor_id: second_user.profile.minor_id,
     exchange_minor_id: exchange_minor.id,
-    status: 'start', 
+    status: 'start',
     approved_by_responder: false,
   )
 

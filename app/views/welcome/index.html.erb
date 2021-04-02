@@ -1,6 +1,7 @@
 __________________________________________________
 <%= link_to "Filters", filters_path %>
 __________________________________________________
+<br>
 <% ExchangeMinor.all.each do |exchange_minor| %>
   <% if exchange_minor.profile.published %>
     <%
@@ -8,14 +9,9 @@ __________________________________________________
       minor = exchange_minor.minor
     %>
 
-    <h3>
-      <%= profile.first_name %>
-      <%= profile.middle_name %>
-      <%= profile.last_name %>
-    </h3>
+    <br>
     <%= link_to minor.name, exchange_minor_path(exchange_minor), target: 'blank' %>
 
-    <br>
     <br>
     whished_minor
     <br>
@@ -24,8 +20,6 @@ __________________________________________________
       <%= Minor.find(whished_minor.id).name %>
       <br>
     <% end %>
-    <br>
-    <br>
-    <br>
   <% end %>
+  <br>
 <% end %>

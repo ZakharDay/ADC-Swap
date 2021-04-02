@@ -105,9 +105,6 @@ ActiveRecord::Schema.define(version: 2021_03_06_131520) do
   end
 
   create_table "profiles", force: :cascade do |t|
-    t.string "first_name"
-    t.string "middle_name"
-    t.string "last_name"
     t.integer "education_year"
     t.integer "program_id"
     t.integer "minor_id"

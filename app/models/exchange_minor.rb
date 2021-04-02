@@ -19,6 +19,8 @@ class ExchangeMinor < ApplicationRecord
     {
       address: minor.address,
       credits: minor.credits,
+      id: minor.id,
+      student_id: profile_id,
       minor: minor.name,
       responsible: minor.responsible,
       description: minor.description,
