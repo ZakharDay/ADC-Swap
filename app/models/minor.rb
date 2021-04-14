@@ -5,4 +5,7 @@ class Minor < ApplicationRecord
   has_many :whished_minors
   belongs_to :program, optional: true
   belongs_to :organisation
+
+  belongs_to :city
+
 end

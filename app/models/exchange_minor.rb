@@ -4,18 +4,23 @@ class ExchangeMinor < ApplicationRecord
 
   def card_index
     {
-      # address: minor.address,
-      # credits: minor.credits,
+      city: minor.city.name,
+      year: minor.start_year,
+      address: minor.address,
+      credits: minor.credits,
       minor: minor.name,
-      whishedMinors: profile.whished_minors.collect { |wm| wm.minor.name }
+      whishedMinors: profile.whished_minors.collect { |wm| wm.minor.name.truncate(18) }
+
       # url: url нужно дополнить в контроллере
     }
   end
 
   def card_show
     {
-      # address: minor.address,
-      # credits: minor.credits,
+      address: minor.address,
+      credits: minor.credits,
+      id: minor.id,
+      student_id: profile_id,
       minor: minor.name,
       responsible: minor.responsible,
       description: minor.description,

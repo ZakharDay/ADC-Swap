@@ -1,17 +1,27 @@
-<h1>Welcome#index</h1>
-<p>Find me in app/views/welcome/index.html.erb</p>
-
+__________________________________________________
+<%= link_to "Filters", filters_path %>
+__________________________________________________
+<br>
 <% ExchangeMinor.all.each do |exchange_minor| %>
-  <%
-    profile = exchange_minor.profile
-    minor = exchange_minor.minor
-  %>
+  <% if exchange_minor.profile.published %>
+    <%
+      profile = exchange_minor.profile
+      minor = exchange_minor.minor
+    %>
 
-  <%= profile.last_name %>
-  <%= profile.first_name %>
-  <%= profile.middle_name %>
+    <br>
+    <%= link_to minor.name, exchange_minor_path(exchange_minor), target: 'blank' %>
+
+    <br>
+    whished_minor
+    <br>
+
+    <% profile.whished_minors.each do |whished_minor| %>
+      <%= Minor.find(whished_minor.id).name %>
+      <br>
+    <% end %>
+  <% end %>
   <br>
-  <%= link_to minor.name, minor.url, target: 'blank' %>
 <% end %>
 
 <div id="button">Хочу этот майнор</div>

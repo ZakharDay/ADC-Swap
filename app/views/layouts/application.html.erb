@@ -11,9 +11,13 @@
   </head>
 
   <body>
-    <header>
-      <%= link_to 'Лента', exchange_minors_path %>
-    </header>
+    <div id="controller" data-controller = "<%= controller.class %>"></div>
+    <div id="action" data-action = "<%= controller.action_name %>"></div>
+    <% if user_signed_in? %>
+      <div id="user-id" data-user-id = "<%= current_user.id %>"></div>
+    <% end %>
+
+    <%= render 'menubar' %>
 
     <%= yield %>
   </body>
