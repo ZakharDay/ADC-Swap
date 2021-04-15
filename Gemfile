@@ -62,3 +62,5 @@ gem 'curb'
 gem 'nokogiri'
 gem 'acts_as_tree'
 gem 'rack-cors'
+
+gem 'react-rails'
