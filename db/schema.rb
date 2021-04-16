@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_06_131520) do
+ActiveRecord::Schema.define(version: 2021_04_16_132852) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,11 +46,6 @@ ActiveRecord::Schema.define(version: 2021_03_06_131520) do
     t.integer "responder_minor_id"
     t.integer "exchange_minor_id"
     t.boolean "approved_by_responder"
-    t.string "status", default: "start"
-    t.integer "responder_status"
-    t.string "time_of_change_responder_status", default: ""
-    t.integer "requester_status"
-    t.string "time_of_change_requester_status", default: ""
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -69,6 +64,8 @@ ActiveRecord::Schema.define(version: 2021_03_06_131520) do
     t.integer "filter_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "email"
+    t.string "code"
   end
 
   create_table "messages", force: :cascade do |t|
@@ -105,6 +102,9 @@ ActiveRecord::Schema.define(version: 2021_03_06_131520) do
   end
 
   create_table "profiles", force: :cascade do |t|
+    t.string "first_name"
+    t.string "middle_name"
+    t.string "last_name"
     t.integer "education_year"
     t.integer "program_id"
     t.integer "minor_id"

@@ -1,4 +1,6 @@
 class ExchangeMinorsController < ApplicationController
+  before_action :authenticate_user!
+  
   def index
     @exchange_minors = ExchangeMinor.all
   end

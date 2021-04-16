@@ -1,18 +1,13 @@
 <h1>Личная информация</h1>
-<div class="profile">
-      <div class="nav">
-        <ul>
-          <li>
-            <%= link_to "Изменить пароль", edit_profile_path %>
-          </li>
-          <li>
-            <%= link_to('Выйти', destroy_user_session_path, method: :delete) %>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <div class="info">
-      <%= render 'form', profile: @profile %>
-      <%= link_to 'Отмена', profile_path(@profile) %>
 
-    </div>
+<div class="profile">
+  <div class="nav">
+    <%#= link_to "Изменить пароль", edit_profile_path %>
+    <%#= link_to('Выйти', destroy_user_session_path, method: :delete) %>
+  </div>
+</div>
+
+<div class="info">
+  <%= render 'form', profile: @profile %>
+  <%= link_to 'Отмена', profile_path(@profile) %>
+</div>

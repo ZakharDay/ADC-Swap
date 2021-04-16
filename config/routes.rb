@@ -18,24 +18,26 @@ Rails.application.routes.draw do
     end
   end
 
-  get 'welcome/index'
+  resources :welcome, only: [:index] do
+    collection do
+      post 'auth'
+    end
+  end
 
   resources :exchange_minor
-
-  resources :profiles do
-    resources :exchange_requests
-  end
-  resources :exchange_requests, only: [:create]
-
+  # TODO: Дописать экшены
+  resources :exchange_requests, only: [:index, :create]
   resources :messages, only: [:new, :create]
-
   resources :filters, only: [:new, :index, :update]
 
+  devise_for :users, skip: [:sessions]
+  as :user do
+    post 'auth/signin' => 'users/sessions#create', as: :user_session
+    delete 'users/delete' => 'devise/sessions#destroy', :as => :destroy_user_session
+  end
 
-
-  devise_for :users
-
-  # root 'api/v1/minors#index'
+  get 'profile' => 'profiles#show'
+  get 'profile/edit' => 'profiles#edit'
 
   root 'welcome#index'
 end

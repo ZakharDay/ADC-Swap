@@ -1,4 +1,5 @@
 class ExchangeRequestsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_exchange_request, only: [:show, :changeStatus, :update]
 
   def index

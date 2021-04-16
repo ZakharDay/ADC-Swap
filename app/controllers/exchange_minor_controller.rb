@@ -1,4 +1,5 @@
 class ExchangeMinorController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_exchange_minor, only: [:show]
 
   def index
