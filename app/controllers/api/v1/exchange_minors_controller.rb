@@ -34,20 +34,24 @@ class Api::V1::ExchangeMinorsController < Api::V1::ApplicationController
       guest = Guest.find_by(device_token: params[:device_token])
       puts "0000000000000000000000000000000000000"
       puts Guest.all
-      filter = guest.filter
+      # filter = guest.filter
 
-      if filter.city_id != nil
-        exchange_minors.each do |exchange_minor|
-          if exchange_minor.minor.city_id == filter.city_id && exchange_minor.minor.start_year == (filter.year + 1)
-            filtered_exchange_minors << exchange_minor
-          end
-        end
-      else
-        exchange_minors.each do |exchange_minor|
-          filtered_exchange_minors << exchange_minor
-        end
+    #   if filter.city_id != nil
+    #     exchange_minors.each do |exchange_minor|
+    #       if exchange_minor.minor.city_id == filter.city_id && exchange_minor.minor.start_year == (filter.year + 1)
+    #         filtered_exchange_minors << exchange_minor
+    #       end
+    #     end
+    #   else
+    #     exchange_minors.each do |exchange_minor|
+    #       filtered_exchange_minors << exchange_minor
+    #     end
+    #   end
+      exchange_minors.each do |exchange_minor|
+        filtered_exchange_minors << exchange_minor
       end
     end
+
 
     exchange_minors.each do |exchange_minor|
       # TODO Почему published — настройка профиля, а не exchange_minor?
