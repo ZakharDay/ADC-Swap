@@ -376,7 +376,7 @@ def find_or_create_organisation(name, url)
 end
 
 def create_user(number)
-  u = User.create!(email: "test#{number}@edu.hse.ru", password: 'testtest', password_confirmation: 'testtest')
+  u = User.create!(email: "test#{number}@edu.hse.ru", password: '1111', password_confirmation: '1111')
   puts "User just created with id #{u.id}"
 
   create_profile(u)
