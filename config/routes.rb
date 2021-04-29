@@ -9,6 +9,11 @@ Rails.application.routes.draw do
         end
       end
 
+      devise_for :users do
+        post 'auth/signin' => 'users/sessions#create', as: :user_session, defaults: { format: 'json' }
+        delete 'users/delete' => 'devise/sessions#destroy', :as => :destroy_user_session, defaults: { format: 'json' }
+      end
+
       resources :exchange_minors, only: [:index, :show], defaults: { format: 'json' }
       resources :exchange_requests, only: [:index, :show, :create], defaults: { format: 'json' }
       resources :minors, only: [:index, :show], defaults: { format: 'json' }

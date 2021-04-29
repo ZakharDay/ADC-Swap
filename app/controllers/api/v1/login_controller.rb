@@ -27,18 +27,25 @@ class Api::V1::LoginController < Api::V1::ApplicationController
       else
         result[:approved] = false
       end
-    else if params[:type] == 'verification'
-      Session.create!(email: params[])
-      # form_for(@user, url: user_session_path, id: 'authCodeForm') do |f|
-      #     f.label :email
-      #     f.email_field :email, id: "emailField" value: params[:value]
-      #
-      #     f.label :password
-      #     f.password_field :password, autocomplete: "current-password"
-      #
-      #     f.submit "Log in"
-      # end
-    end
+    # else if params[:type] == 'verification'
+    #   puts '================================'
+    #   puts params
+    #   puts params[:email]
+    #
+    #   u = User.find_by_email(params[:email])
+    #
+    #   puts u.to_json
+    #   Session.create!()
+    #   # form_for(@user, url: user_session_path, id: 'authCodeForm') do |f|
+    #   #     f.label :email
+    #   #     f.email_field :email, id: "emailField" value: params[:value]
+    #   #
+    #   #     f.label :password
+    #   #     f.password_field :password, autocomplete: "current-password"
+    #   #
+    #   #     f.submit "Log in"
+    #   # end
+    # end
 
 
     # @user = User.create!(email: params[:email], password: 'testtest', password_confirmation: 'testtest')
