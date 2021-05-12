@@ -14,6 +14,7 @@ Rails.application.routes.draw do
         delete 'users/delete' => 'devise/sessions#destroy', :as => :destroy_user_session, defaults: { format: 'json' }
       end
 
+      resources :guests, only: [:index], defaults: { format: 'json' }
       resources :exchange_minors, only: [:index, :show], defaults: { format: 'json' }
       resources :exchange_requests, only: [:index, :show, :create], defaults: { format: 'json' }
       resources :minors, only: [:index, :show], defaults: { format: 'json' }

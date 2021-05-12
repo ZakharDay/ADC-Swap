@@ -8,7 +8,8 @@ class Api::V1::SessionsController < Devise::SessionsController
     if user
       self.resource = warden.authenticate!({:scope=>:user, :recall=>"users/sessions#new"})
       sign_in(resource_name, resource)
-      render json: resource
+
+      render json: {authenticity_token: form_authenticity_token, resource:resource}
     else
       render json: {error: 'User not found'}
     end

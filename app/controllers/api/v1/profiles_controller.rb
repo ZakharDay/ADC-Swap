@@ -1,27 +1,26 @@
 class Api::V1::ProfilesController < Api::V1::ApplicationController
   def index
-    profile_id = rand(Profile.count)
+    puts current_user
+    if current_user
+      profile = Profile.find(current_user.id)
 
-    if profile_id == 0
-      profile_id = 1
+      whishedMinors = profile.whished_minors.all.collect
+
+      profile_data = {
+        id: profile.id,
+        year: profile.education_year,
+        minor: Minor.find(profile.minor_id).name,
+        city: City.find(Program.find(profile.program_id).city_id).name,
+        whished_minors: profile.whished_minors.collect { |wm| wm.minor.name },
+        isPublished: profile.published,
+        email: profile.user.email,
+        # update_url: api_v1_profile_url(profile)
+        # update_url: api_v1_profile_url(profile, method: :PATH)
+      }
+
+    else
+      profile_data = {error: 'Current user is not found'}
     end
-
-    profile = Profile.find(profile_id)
-
-    whishedMinors = profile.whished_minors.all.collect
-
-    profile_data = {
-      id: profile.id,
-      year: profile.education_year,
-      minor: Minor.find(profile.minor_id).name,
-      city: City.find(Program.find(profile.program_id).city_id).name,
-      whished_minors: profile.whished_minors.collect { |wm| wm.minor.name },
-      isPublished: profile.published,
-      email: profile.user.email,
-      # update_url: api_v1_profile_url(profile)
-      # update_url: api_v1_profile_url(profile, method: :PATH)
-    }
-
     render json: profile_data
   end
 
