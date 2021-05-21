@@ -9,10 +9,26 @@ class Api::V1::SessionsController < Devise::SessionsController
       self.resource = warden.authenticate!({:scope=>:user, :recall=>"users/sessions#new"})
       sign_in(resource_name, resource)
 
-      render json: {authenticity_token: form_authenticity_token, resource:resource}
+      puts '========================'
+      device_token = user.profile.device_token
+      puts device_token
+      puts '========================'
+
+      render json: {authenticity_token: form_authenticity_token, device_token: device_token, resource:resource}
     else
       render json: {error: 'User not found'}
     end
+  end
+
+  def destroy
+    puts '00000000000000000000000000000000000000000'
+    puts params
+    # user = User.find_by_device(params[:user][:email])
+    # self.resource = warden.authenticate!({:scope=>:user})
+    # sign_out(resource_name))
+    # set_flash_message! :notice, :signed_out if signed_out
+    # yield if block_given?
+    # respond_to_on_destroy
   end
 
   protected

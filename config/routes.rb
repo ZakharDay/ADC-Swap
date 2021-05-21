@@ -11,7 +11,7 @@ Rails.application.routes.draw do
 
       devise_for :users do
         post 'auth/signin' => 'users/sessions#create', as: :user_session, defaults: { format: 'json' }
-        delete 'users/delete' => 'devise/sessions#destroy', :as => :destroy_user_session, defaults: { format: 'json' }
+        delete 'users/delete' => 'users/sessions#destroy', :as => :destroy_user_session, defaults: { format: 'json' }
       end
 
       resources :guests, only: [:index], defaults: { format: 'json' }

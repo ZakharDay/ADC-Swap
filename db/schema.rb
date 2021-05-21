@@ -112,6 +112,7 @@ ActiveRecord::Schema.define(version: 2021_04_16_132852) do
     t.integer "minor_id"
     t.integer "user_id"
     t.boolean "published"
+    t.string "device_token"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

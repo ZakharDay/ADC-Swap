@@ -9,8 +9,8 @@ class Api::V1::ApplicationController < ApplicationController
       # Этот метод запрещает подключение
       # handle_unverified_request
 
-      puts "TOKEN FROM REQUEST"
-      puts authenticity_token
+      puts "TOKEN FROM ApplicationController"
+      puts params[:authenticity_token]
       # puts "IS EQUEAL TO GUEST TOKEN"
       # puts guest.authenticity_token
     # elsif guest

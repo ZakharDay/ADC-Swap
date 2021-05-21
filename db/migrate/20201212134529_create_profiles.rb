@@ -6,6 +6,7 @@ class CreateProfiles < ActiveRecord::Migration[6.1]
       t.integer :minor_id
       t.integer :user_id
       t.boolean :published
+      t.string :device_token
 
       t.timestamps
     end

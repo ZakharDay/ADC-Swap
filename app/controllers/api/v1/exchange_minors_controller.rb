@@ -1,20 +1,21 @@
 class Api::V1::ExchangeMinorsController < Api::V1::ApplicationController
 
   def index
-    puts 'TOKENS FROM IOS APP'
-    puts params[:authenticity_token]
-    puts 'TOKENS FROM IOS APP'
+    # puts 'TOKENS FROM IOS APP'
+    # puts params[:authenticity_token]
+    # puts 'TOKENS FROM IOS APP'
 
     exchange_minors = ExchangeMinor.all
     exchange_minors_data = []
     filtered_exchange_minors = []
 
-    if user_signed_in?
-      puts "USER IS SIGNED IN SOMEHOW"
-
+    if params[:authenticity_token] != 'undefined'
+      puts params[:authenticity_token]
+      puts "USER IS SIGNED IN"
       # session
 
       # if profile.filters.any?
+
       #   filter = profile.filters.first
       #   # puts(filter.to_json)
       #   exchange_minors.each do |exchange_minor|
@@ -28,9 +29,11 @@ class Api::V1::ExchangeMinorsController < Api::V1::ApplicationController
       #   filters_exchange_minors = exchange_minors
       # end
 
-      exchange_minors.each do |exchange_minor|
-        filtered_exchange_minors << exchange_minor
-      end
+      # exchange_minors.each do |exchange_minor|
+      #   filtered_exchange_minors << exchange_minor
+      # end
+    else
+      puts "GUEST"
     end
 
 
@@ -51,6 +54,23 @@ class Api::V1::ExchangeMinorsController < Api::V1::ApplicationController
   def show
     exchange_minor = ExchangeMinor.find(params[:id])
     exchange_minor_data = exchange_minor.card_show
+
+    puts '======================='
+
+    profile = Profile.find_by(device_token: params[:deviceToken])
+
+    profile.exchange_requests.each do |exchange|
+      if profile.id == exchange_minor.requester_id || profile.id == exchange_minor.responder_id
+        request = true
+      else
+        request = false
+      end
+    end
+
+
+    exchange_minor_data[:request] = request
+
+    puts exchange_minor_data
 
     render json: exchange_minor_data
   end

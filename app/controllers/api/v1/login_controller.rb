@@ -6,26 +6,27 @@ class Api::V1::LoginController < Api::V1::ApplicationController
     result = {email: email}
 
     if params[:type] == 'email'
-      if email.include? "@edu.hse.ru"
-        result[:approved] = true
-        u = User.find_by_email(email)
+      if email
+        if email.include? "@edu.hse.ru"
+          result[:approved] = true
+          u = User.find_by_email(email)
 
-        code = [rand(0..9), rand(0..9), rand(0..9), rand(0..9)].shuffle.join('')
-        result[:code] = code
+          code = [rand(0..9), rand(0..9), rand(0..9), rand(0..9)].shuffle.join('')
 
-        if u
-          result[:reg] = false
-          u.update_attribute(:password, code)
+          if u
+            result[:reg] = false
+            u.update_attribute(:password, code)
+          else
+            u = User.create!(email: email, password: code, password_confirmation: code)
+            result[:reg] = true
+          end
+          u.profile.update(device_token: SecureRandom.uuid)
+          render json: result
+
+          UserLoginCodeMailer.with(email: u.email, code: code).login_code_email.deliver_now
         else
-          u = User.create!(email: email, password: code, password_confirmation: code)
-          result[:reg] = true
+          result[:approved] = false
         end
-
-        render json: result
-
-        UserLoginCodeMailer.with(email: u.email, code: code).login_code_email.deliver_now
-      else
-        result[:approved] = false
       end
     # else if params[:type] == 'verification'
     #   puts '================================'
