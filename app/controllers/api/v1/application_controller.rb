@@ -18,8 +18,8 @@ class Api::V1::ApplicationController < ApplicationController
       # puts authenticity_token
       # puts "IS NOT EQUEAL TO GUEST TOKEN"
       # puts guest.authenticity_token
+      # handle_unverified_request if request.post?
 
-      handle_unverified_request if request.post?
     end
   end
 

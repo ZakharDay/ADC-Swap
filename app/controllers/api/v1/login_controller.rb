@@ -3,31 +3,33 @@ class Api::V1::LoginController < Api::V1::ApplicationController
 
   def create
     email =  params[:email]
-    result = {email: email}
+    result = {}
 
-    if params[:type] == 'email'
-      if email
-        if email.include? "@edu.hse.ru"
-          result[:approved] = true
-          u = User.find_by_email(email)
+    if email
+      result = {email: email}
 
-          code = [rand(0..9), rand(0..9), rand(0..9), rand(0..9)].shuffle.join('')
+      if email.include? "@edu.hse.ru"
+        result[:approved] = true
+        u = User.find_by_email(email)
 
-          if u
-            result[:reg] = false
-            u.update_attribute(:password, code)
-          else
-            u = User.create!(email: email, password: code, password_confirmation: code)
-            result[:reg] = true
-          end
-          u.profile.update(device_token: SecureRandom.uuid)
-          render json: result
+        code = [rand(0..9), rand(0..9), rand(0..9), rand(0..9)].shuffle.join('')
 
-          UserLoginCodeMailer.with(email: u.email, code: code).login_code_email.deliver_now
+        if u
+          result[:reg] = false
+          u.update_attribute(:password, code)
         else
-          result[:approved] = false
+          u = User.create!(email: email, password: code, password_confirmation: code)
+          result[:reg] = true
         end
+        u.profile.update(device_token: SecureRandom.uuid)
+        UserLoginCodeMailer.with(email: u.email, code: code).login_code_email.deliver_now
+      else
+        result[:approved] = false
       end
+
+      puts result
+
+      render json: result
     # else if params[:type] == 'verification'
     #   puts '================================'
     #   puts params

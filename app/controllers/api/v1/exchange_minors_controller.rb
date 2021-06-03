@@ -59,16 +59,14 @@ class Api::V1::ExchangeMinorsController < Api::V1::ApplicationController
 
     profile = Profile.find_by(device_token: params[:deviceToken])
 
+
     profile.exchange_requests.each do |exchange|
-      if profile.id == exchange_minor.requester_id || profile.id == exchange_minor.responder_id
-        request = true
+      if exchange == exchange_minor
+        exchange_minor_data[:request] = true
       else
-        request = false
+        exchange_minor_data[:request] = false
       end
     end
-
-
-    exchange_minor_data[:request] = request
 
     puts exchange_minor_data
 

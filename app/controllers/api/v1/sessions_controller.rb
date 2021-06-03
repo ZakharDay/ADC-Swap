@@ -22,10 +22,10 @@ class Api::V1::SessionsController < Devise::SessionsController
 
   def destroy
     puts '00000000000000000000000000000000000000000'
-    puts params
-    # user = User.find_by_device(params[:user][:email])
-    # self.resource = warden.authenticate!({:scope=>:user})
-    # sign_out(resource_name))
+    user = User.find(Profile.find_by(device_token: params[:deviceToken]).user_id)
+    self.resource = warden.authenticate!({:scope=>:user})
+    sign_out(resource_name)
+    puts current_user.to_json
     # set_flash_message! :notice, :signed_out if signed_out
     # yield if block_given?
     # respond_to_on_destroy
