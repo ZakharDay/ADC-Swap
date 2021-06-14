@@ -1,32 +1,37 @@
 
 <% if user_signed_in? %>
+<% exchande_minors = []%>
+<% ExchangeMinor.all.each do |exchange_minor|
+   if exchange_minor.profile.published
+
+      profile = exchange_minor.profile
+      minor = exchange_minor.minor
+      exchande_minors.push({
+        city: 'Москва',
+        year:'2020',
+        title: minor.name,
+        url: exchange_minor_path(minor),
+        address: 'ул. Старая Басманная д. 1/4, стр.2',
+        credits: '24'
+      })
+   end
+ end %>
+<% puts exchande_minors %>
+<div id="data" data-props = "<%=exchande_minors.to_json%>"></div>
   __________________________________________________
   <%= link_to "Filters", filters_path %>
   __________________________________________________
-  <br>
-  <% ExchangeMinor.all.each do |exchange_minor| %>
-    <% if exchange_minor.profile.published %>
-      <%
-        profile = exchange_minor.profile
-        minor = exchange_minor.minor
-      %>
 
-      <br>
-      <%= link_to minor.name, exchange_minor_path(exchange_minor), target: 'blank' %>
+  <%= javascript_pack_tag 'main_screen' %>
 
-      <br>
-      whished_minor
-      <br>
 
-      <% profile.whished_minors.each do |whished_minor| %>
-        <%= Minor.find(whished_minor.id).name %>
-        <br>
-      <% end %>
-    <% end %>
-    <br>
-  <% end %>
+
+
+
+  <%# <%= render 'button', text: 'Войти', link: welcome_index_path %> %>
+
 <% else %>
-  <h1>Auth</h1>
+  <h4 class="text">Auth</h4>
 
   <%= form_for(@user, url: auth_welcome_index_path, id: 'authCodeForm') do |f| %>
     <div class="field">
@@ -55,5 +60,5 @@
   <% end %>
 <% end %>
 
-<%= javascript_pack_tag 'hello_react' %>
+
 <!-- <div id="button">Хочу этот майнор</div> -->

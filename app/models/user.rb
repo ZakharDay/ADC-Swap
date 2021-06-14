@@ -6,7 +6,7 @@ class User < ApplicationRecord
 
   has_one :profile
 
-  after_create :create_profile
+  # after_create :create_profile
 
   # if email.include? "@edu.hse.ru"
   #   courses.push(sublink)
