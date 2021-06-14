@@ -5,9 +5,8 @@
 </div>
 <div>
   <% if user_signed_in? %>
-  <%# TODO: Fix this %>
-  <%#= link_to("My requests", profile_exchange_requests_path(current_user.id)) %>
-  <%= link_to("My profile", profile_path) %>
+    <%= link_to("My requests", exchange_requests_path) %>
+    <%= link_to("My profile", profile_path(current_user.profile.id)) %>
 
   <% else %>
 

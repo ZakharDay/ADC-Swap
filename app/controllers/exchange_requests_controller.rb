@@ -1,6 +1,6 @@
 class ExchangeRequestsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_exchange_request, only: [:show, :changeStatus, :update]
+  before_action :set_exchange_request, only: [:show, :changeStatus, :update, :destroy]
 
   def index
   end
@@ -33,6 +33,19 @@ class ExchangeRequestsController < ApplicationController
 
   end
 
+  # def update
+  #   respond_to do |format|
+  #     status = params[:status] ? params[:status] : 'process'
+  #     if @exchange_request.update(approved_by_responder: params[:approved], status: status, responder_status: params[:responder_status], requester_status: params[:requester_status], time_of_change_responder_status: Date.today, time_of_change_requester_status: Date.today)
+  #       format.html { redirect_to profile_exchange_requests_path,  notice: 'Exchange request was successfully updated.' }
+  #       format.json { render :show, status: :ok, location: @exchange_request }
+  #     else
+  #       format.html { render :edit }
+  #       format.json { render json: @exchange_request.errors, status: :unprocessable_entity }
+  #     end
+  #   end
+  # end
+
   def update
     respond_to do |format|
       status = params[:status] ? params[:status] : 'process'
@@ -43,6 +56,14 @@ class ExchangeRequestsController < ApplicationController
         format.html { render :edit }
         format.json { render json: @exchange_request.errors, status: :unprocessable_entity }
       end
+    end
+  end
+
+  def destroy
+    @exchange_request.destroy
+    respond_to do |format|
+      format.html { redirect_to exchange_requests_path(current_user.profile.id), notice: 'Request was successfully destroyed.' }
+      format.json { head :no_content }
     end
   end
 

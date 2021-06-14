@@ -2,5 +2,21 @@
   <%= Minor.find(@exchange_minor.minor_id).name %>
 <h1>
 
+<% if current_user.profile.exchange_requests.count == 0 %>
+  <%= link_to("Отправить запрос на обмен", exchange_requests_path(id_master_of_minor: @master_of_minor, exchange_minor_id: @exchange_minor.id), method: :post) %>
+<% end %>
 
-<%= link_to("ОТправить запрос на обмен", exchange_requests_path(id_master_of_minor: @master_of_minor, exchange_minor_id: @exchange_minor.id), method: :post) %>
+<% current_user.profile.exchange_requests.each do |request| %>
+  <% if @exchange_minor.minor_id == request.responder_minor_id %>
+    <p>Ожидаем ответа студента</p>
+    <%= link_to("Отменить", exchange_request_path(current_user.profile.id, request.id)) %>
+    <%= link_to("Чат", exchange_request_path(current_user.profile.id, request.id)) %>
+  <% elsif @exchange_minor.minor_id == request.requester_minor_id %>
+    <p>Вам отправили запрос на обмен</p>
+    <%= link_to("Принять", exchange_request_path(current_user.profile.id, request.id)) %>
+    <%= link_to("Отклонить", exchange_request_path(current_user.profile.id, request.id)) %>
+    <%= link_to("Чат", exchange_request_path(current_user.profile.id, request.id)) %>
+  <% else %>
+    <%= link_to("Отправить запрос на обмен", exchange_requests_path(id_master_of_minor: @master_of_minor, exchange_minor_id: @exchange_minor.id), method: :post) %>
+  <% end %>
+<% end %>
