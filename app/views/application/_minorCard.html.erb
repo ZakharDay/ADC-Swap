@@ -1,0 +1,20 @@
+<div class="card">
+  <% if minor.profile.published %>
+    <%
+      profile = minor.profile
+      minor = minor.minor
+    %>
+    <h4>Москва • 2020</h4>
+    <h2>
+      <%= link_to minor.name, exchange_minor_path(minor), target: 'blank' %>
+    </h2>
+    <h3>ул. Старая Басманная д. 1/4, стр.</h3>
+
+    <% profile.whished_minors.each do |whished_minor| %>
+
+    <!-- <div class="chips">
+      <%# <%= Minor.find(whished_minor.id).name %> %>
+    </div> -->
+    <% end %>
+  <% end %>
+</div>
