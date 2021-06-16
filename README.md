@@ -10,9 +10,9 @@ rails s
 ## API Call
 
 ```javascript
-fetch("http://localhost:3000/api/v1/exchange_minors/")
+fetch('http://localhost:3000/api/v1/exchange_minors/')
   .then((response) => response.json())
-  .then((data) => console.log(data));
+  .then((data) => console.log(data))
 ```
 
 # API tasks
@@ -33,3 +33,4 @@ fetch("http://localhost:3000/api/v1/exchange_minors/")
 ### Test
 
 - Написать автотесты
+<!-- Test -->
