@@ -9,6 +9,8 @@ const ExchangeMinorCard = (props) => {
           {props.props.city} • {props.props.year}
         </h4>
         <h2>{props.props.title}</h2>
+        <h3>{props.props.address}</h3>
+        <h3>{props.props.credits} кредита</h3>
       </div>
     </a>
   )
