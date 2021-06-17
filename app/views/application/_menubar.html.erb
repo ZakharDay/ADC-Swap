@@ -1,8 +1,8 @@
 <div style="display: flex; justify-content: space-between; width: 70%; margin: 0 auto
 ">
-<div>
-  <%= link_to("Main", welcome_index_path) %>
-</div>
+  <div>
+    <%= link_to("Main", welcome_index_path) %>
+  </div>
 <div>
   <% if user_signed_in? %>
     <%= link_to("My requests", exchange_requests_path) %>
@@ -11,9 +11,8 @@
   <% else %>
 
   <%#= render 'button' %>
-
   <%= link_to('Sign Up', new_user_registration_path) %>
-
+  <%# <%= Minor.find(whished_minor.id).name %> %>
   <% end %>
 
 </div>

@@ -5,22 +5,13 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
-
-const Hello = props => (
-  <div>Hello {props.name}!</div>
-)
-
-Hello.defaultProps = {
-  name: 'David'
-}
-
-Hello.propTypes = {
-  name: PropTypes.string
-}
+import MainScreenContainer from '../containers/MainScreenContainer'
 
 document.addEventListener('DOMContentLoaded', () => {
+  const props = JSON.parse(document.getElementById('data').dataset.props)
+  console.log(props)
   ReactDOM.render(
-    <Hello name="React" />,
-    document.body.appendChild(document.createElement('div')),
+    <MainScreenContainer props={props} />,
+    document.body.appendChild(document.createElement('div'))
   )
 })

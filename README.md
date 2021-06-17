@@ -35,3 +35,4 @@ fetch('http://localhost:3000/api/v1/exchange_minors/')
 ### Test
 
 - Написать автотесты
+<!-- Test -->
