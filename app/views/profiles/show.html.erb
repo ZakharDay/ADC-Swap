@@ -15,7 +15,8 @@
 <% end %>
 <br>
 <br>
-<% if @profile.published %>
+<% exchange = ExchangeMinor.where(profile_id: @profile.id).first %>
+<% if exchange.published %>
   Ваше объявление опубликовано, вы можете получать предложения об обмене от других студентов
 <% else %>
   Ваше объявление не опубликовано, вы не будете получать предложения об обмене от других студентов
