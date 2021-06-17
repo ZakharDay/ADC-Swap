@@ -388,7 +388,6 @@ def create_profile(user)
     program_id: Program.first.id,
     minor_id: Minor.first.id,
     user_id: user.id,
-    published: true,
   )
 
   puts "Profile just created with id #{p.id} for user with id #{p.user.id}"
@@ -409,7 +408,9 @@ end
 
 def create_exchange_minor(profile)
   e = profile.exchange_minors.create!(
-    minor_id: profile.minor_id
+    minor_id: profile.minor_id,
+    published: true,
+    
   )
 
   puts "ExchangeMinor just created with id #{e.id}"

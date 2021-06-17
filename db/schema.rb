@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(version: 2021_04_16_132852) do
   create_table "exchange_minors", force: :cascade do |t|
     t.integer "profile_id"
     t.integer "minor_id"
+    t.boolean "published"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -107,11 +108,11 @@ ActiveRecord::Schema.define(version: 2021_04_16_132852) do
   end
 
   create_table "profiles", force: :cascade do |t|
+    t.string "name"
     t.integer "education_year"
     t.integer "program_id"
     t.integer "minor_id"
     t.integer "user_id"
-    t.boolean "published"
     t.string "device_token"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
