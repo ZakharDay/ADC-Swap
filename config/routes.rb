@@ -30,9 +30,14 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :profiles do
+    collection do
+      resources :exchange_requests
+    end
+  end
   resources :exchange_minor
   # TODO: Дописать экшены
-  resources :exchange_requests, only: [:index, :create]
+  # resources :exchange_requests, only: [:index, :create]
   resources :messages, only: [:new, :create]
   resources :filters, only: [:new, :index, :update]
 
@@ -42,8 +47,8 @@ Rails.application.routes.draw do
     delete 'users/delete' => 'devise/sessions#destroy', :as => :destroy_user_session
   end
 
-  get 'profile' => 'profiles#show'
-  get 'profile/edit' => 'profiles#edit'
+  # get 'profile' => 'profiles#show'
+  # get 'profile/edit' => 'profiles#edit'
 
   root 'welcome#index'
 end

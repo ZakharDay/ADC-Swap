@@ -3,16 +3,18 @@
 ```
 rails db:create
 rails db:migrate
+//закомменитровать строку 9 в ADC-Swap/app/models/user.rb
 rails db:seed
-rails s
+//раскомментировать строку 9 в ADC-Swap/app/models/user.rb
+rails s -b 0.0.0.0
 ```
 
 ## API Call
 
 ```javascript
-fetch("http://localhost:3000/api/v1/exchange_minors/")
+fetch('http://localhost:3000/api/v1/exchange_minors/')
   .then((response) => response.json())
-  .then((data) => console.log(data));
+  .then((data) => console.log(data))
 ```
 
 # API tasks

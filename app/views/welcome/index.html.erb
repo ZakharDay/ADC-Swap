@@ -2,22 +2,24 @@
 <% if user_signed_in? %>
   <br>
   <% ExchangeMinor.all.each do |exchange_minor| %>
-    <% if exchange_minor.published %>
-      <%
-        profile = exchange_minor.profile
-        minor = exchange_minor.minor
-      %>
+    <% if exchange_minor.profile.id != current_user.profile.id %>
+      <% if exchange_minor.published %>
+        <%
+          profile = exchange_minor.profile
+          minor = exchange_minor.minor
+        %>
 
-      <br>
-      <%= link_to minor.name, exchange_minor_path(exchange_minor), target: 'blank' %>
-
-      <br>
-      whished_minor
-      <br>
-
-      <% profile.whished_minors.each do |whished_minor| %>
-        <%= Minor.find(whished_minor.id).name %>
         <br>
+        <%= link_to minor.name, exchange_minor_path(exchange_minor), target: 'blank' %>
+
+        <br>
+        whished_minor
+        <br>
+
+        <% profile.whished_minors.each do |whished_minor| %>
+          <%= Minor.find(whished_minor.id).name %>
+          <br>
+        <% end %>
       <% end %>
     <% end %>
     <br>

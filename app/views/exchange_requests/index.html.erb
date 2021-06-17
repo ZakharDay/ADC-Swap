@@ -1,8 +1,8 @@
 <h2>
   My requests
 </h2>
-<% ExchangeRequest.where(requester_id: current_user.id).each do |request| %>
-  <%= link_to profile_exchange_request_path(current_user.id, request.id) do %>
+<% ExchangeRequest.where(requester_id: current_user.profile.id).each do |request| %>
+  <%= link_to exchange_request_path(current_user.profile.id, request.id) do %>
     <div class="exchange-card">
       <p>
         <%= Minor.find(request.responder_minor_id).name %>
@@ -24,7 +24,7 @@
 </h2>
 
 <% ExchangeRequest.where(responder_id: current_user.id).each do |request| %>
-  <%= link_to profile_exchange_request_path(current_user.id, request.id) do %>
+  <%= link_to exchange_request_path(current_user.id, request.id) do %>
     <p>
       <%= Minor.find(request.requester_minor_id).name %>
     </p>
@@ -33,10 +33,10 @@
     <br>
     <% if request.approved_by_responder %>
       Вы одобрили обмен
-      <span><%= link_to 'Отклонить',profile_exchange_request_path(profile_id:request.requester_id, id: request.id, status: 'rejected',approved: false), method: :patch %></span>
+      <span><%= link_to 'Отклонить',exchange_request_path(profile_id:request.requester_id, id: request.id, status: 'rejected',approved: false), method: :patch %></span>
     <% else %>
-      <%= link_to 'Одобрить',profile_exchange_request_path(profile_id:request.requester_id, id: request.id, status: 'process',approved: true, responder_status: 1, requester_status: 1), method: :patch %>
-      <%= link_to 'Отклонить',profile_exchange_request_path(profile_id:request.requester_id, id: request.id, status: 'rejected',approved: false, responder_status: 0, requester_status: 0), method: :patch %>
+      <%= link_to 'Одобрить',exchange_request_path(profile_id:request.requester_id, id: request.id, status: 'process',approved: true, responder_status: 1, requester_status: 1), method: :patch %>
+      <%= link_to 'Отклонить',exchange_request_path(profile_id:request.requester_id, id: request.id, status: 'rejected',approved: false, responder_status: 0, requester_status: 0), method: :patch %>
     <% end %>
   <% end %>
 <% end %>

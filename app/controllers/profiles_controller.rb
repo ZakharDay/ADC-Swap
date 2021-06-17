@@ -10,14 +10,15 @@ class ProfilesController < ApplicationController
 
   def update
     params[:profile][:whished_minors_id].delete_at(0)
+    puts params
 
     @profile.whished_minors.each { |minor| minor.destroy}
     params[:profile][:whished_minors_id].each do |minor_id|
       WhishedMinor.create!(profile_id:@profile.id, minor_id:minor_id)
     end
 
-    exchange_minor_id = ExchangeMinor.where(profile_id: @profile.id).first.id
-    ExchangeMinor.update(exchange_minor_id, minor_id:params[:profile][:minor_id])
+    exchange_minor = ExchangeMinor.where(profile_id: @profile.id)
+    exchange_minor.update(minor_id:params[:profile][:minor_id])
 
     respond_to do |format|
       if @profile.update(profile_params)
