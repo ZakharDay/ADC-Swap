@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ADCSwap</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'application' %>
+  </head>
+
+  <body>
+    <div id="controller" data-controller = "<%= controller.class %>"></div>
+    <div id="action" data-action = "<%= controller.action_name %>"></div>
+    <% if user_signed_in? %>
+      <div id="user-id" data-user-id = "<%= current_user.id %>"></div>
+    <% end %>
+
+    <%= yield %>
+
+  </body>
+</html>

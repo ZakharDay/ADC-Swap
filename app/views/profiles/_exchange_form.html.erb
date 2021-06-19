@@ -1,0 +1,18 @@
+<%= form_with(model: exchange, local: true) do |form| %>
+
+  <div class="point">
+    <h3>На каие майноры хочешь</h3>
+    <%= form.select :whished_minors_id, Minor.all.collect { |minor| [minor.name, minor.id] }, {}, { multiple: true } %>
+  </div>
+
+  <div class="point">
+    <h3>открыть объявления</h3>
+    <%= form.check_box :published %>
+  </div>
+
+
+  <div class="but">
+    <%= exchange.to_json %>
+    <%= form.submit %>
+  </div>
+<% end %>

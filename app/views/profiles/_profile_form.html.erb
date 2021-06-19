@@ -1,0 +1,32 @@
+<%= form_with(model: profile, local: true) do |form| %>
+  <%# if profile.errors.any? %>
+    <!-- <div id="error_explanation"> -->
+      <!-- <h2><%#= pluralize(profile.errors.count, "error") %> prohibited this profile from being saved:</h2> -->
+
+      <!-- <ul> -->
+        <%# profile.errors.full_messages.each do |message| %>
+          <!-- <li><%#= message %></li> -->
+        <%# end %>
+      <!-- </ul> -->
+    <!-- </div> -->
+  <%# end %>
+
+  <div class="point">
+    <h3>курс</h3>
+    <%= form.select( :education_year, [2,3])  %>
+  </div>
+
+  <div class="point">
+    <h3>кампус</h3>
+    <%= form.select( :city_id, City.all.collect{ |program| [program.name, program.id]}) %>
+  </div>
+  <div class="point">
+    <h3>твйо майнор</h3>
+    <%= form.select( :minor_id, Minor.all.collect{ |minor| [minor.name, minor.id]}) %>
+  </div>
+
+  <div class="but">
+    <%= profile.to_json %>
+    <%= form.submit %>
+  </div>
+<% end %>

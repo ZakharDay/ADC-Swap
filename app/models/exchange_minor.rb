@@ -1,6 +1,8 @@
 class ExchangeMinor < ApplicationRecord
   belongs_to :profile
   belongs_to :minor
+  has_many :whished_minors
+
 
   def card_index
     {

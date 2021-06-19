@@ -140,7 +140,7 @@ ActiveRecord::Schema.define(version: 2021_04_16_132852) do
   end
 
   create_table "whished_minors", force: :cascade do |t|
-    t.integer "profile_id"
+    t.integer "exchange_minor_id"
     t.integer "minor_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

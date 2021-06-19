@@ -18,7 +18,7 @@ def seed
   create_exchange_request
   # approve_exchange_request
 
-  create_wished_minors
+  # create_wished_minors
 end
 
 def clean_db
@@ -393,27 +393,22 @@ def create_profile(user)
   puts "Profile just created with id #{p.id} for user with id #{p.user.id}"
 end
 
-def create_wished_minors
-  profiles = Profile.all
+def create_wished_minors(exchange)
 
-  profiles.each do |profile|
     minors = Minor.all.sample(3)
-
     minors.each do |minor|
-      w = WhishedMinor.create!(profile_id: profile.id, minor_id: minor.id)
+      w = WhishedMinor.create!(exchange_minor_id: exchange.id, minor_id: minor.id)
       puts "WhishedMinor just created with id #{w.id}"
     end
-  end
 end
 
 def create_exchange_minor(profile)
   e = profile.exchange_minors.create!(
     minor_id: profile.minor_id,
     published: true,
-    
   )
-
   puts "ExchangeMinor just created with id #{e.id}"
+  create_wished_minors(e)
 end
 
 def create_exchange_request

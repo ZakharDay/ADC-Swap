@@ -1,7 +1,7 @@
 
 <br>
-<h3>your Program</h3>
-<%= Program.find(@profile.program_id).name %>
+<!-- <h3>your Program</h3> -->
+<%#= Program.find(@profile.program_id).name %>
 <br>
 <h3>your minor</h3>
 <%= Minor.find(@profile.minor_id).name %>
@@ -9,10 +9,11 @@
 <br>
 
 <h3>your wished minors</h3>
-<% @profile.whished_minors.each do |whished_minor|%>
-  <%= Minor.find(whished_minor.minor_id).name %>
-  <br>
-<% end %>
+<%# <%= @profile.exchange_minors.to_json %> %>
+<%# <% @profile.exchange_minor.whished_minors.each do |whished_minor|%> %>
+  <%# <%= Minor.find(whished_minor.minor_id).name %> %>
+  <!-- <br> -->
+<%# <% end %> %>
 <br>
 <br>
 <% exchange = ExchangeMinor.where(profile_id: @profile.id).first %>

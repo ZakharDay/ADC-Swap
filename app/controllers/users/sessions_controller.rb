@@ -62,7 +62,8 @@ class Users::SessionsController < Devise::SessionsController
   # The path used after sign up. You need to overwrite this method
   # in your own RegistrationsController.
   def after_sign_up_path_for(resource)
-    after_sign_in_path_for(resource) if is_navigational_format?
+    new_profile_path
+    # after_sign_in_path_for(resource) if is_navigational_format?
   end
 
   # The path used after sign up for inactive accounts. You need to overwrite
