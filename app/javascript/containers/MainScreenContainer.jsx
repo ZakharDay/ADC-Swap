@@ -1,7 +1,7 @@
 import React from 'react'
 import ExchangeMinorCard from '../components/03_Organisms/O_ExchangeCard'
 
-export default class MainScreenContainer extends React.Component {
+export default class MainScreenContainer extends React.PureComponent {
   constructor(props) {
     super(props)
     this.state = {

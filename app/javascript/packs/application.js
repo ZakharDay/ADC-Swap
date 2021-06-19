@@ -53,13 +53,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
   console.log('Yo')
 
-  sendCodeButton.addEventListener('click', () => {
-    console.log('click')
-    const emailField = document.getElementById('emailField')
-    const hiddenEmailField = document.getElementById('hiddenEmailField')
-    console.log(hiddenEmailField, emailField)
-    hiddenEmailField.value = emailField.value
-  })
+  if (sendCodeButton) {
+    sendCodeButton.addEventListener('click', () => {
+      console.log('click')
+      const emailField = document.getElementById('emailField')
+      const hiddenEmailField = document.getElementById('hiddenEmailField')
+      console.log(hiddenEmailField, emailField)
+      hiddenEmailField.value = emailField.value
+    })
+  }
 })
 
 // Support component names relative to this directory:

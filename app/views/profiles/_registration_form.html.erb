@@ -3,20 +3,20 @@
   <%= form.hidden_field :type, value: "registration" %>
 
   <div class="point">
-    <h3>курс</h3>
+    <h3>Курс</h3>
     <%= form.select( :education_year, [2,3])  %>
   </div>
   <div class="point">
-    <h3>кампус</h3>
+    <h3>Кампус</h3>
     <%= form.select( :city_id, City.all.collect{ |program| [program.name, program.id]}) %>
   </div>
   <div class="point">
-    <h3>твйо майнор</h3>
+    <h3>Твой майнор</h3>
     <%= form.select( :minor_id, Minor.all.collect{ |minor| [minor.name, minor.id]}) %>
   </div>
 
   <div class="point">
-    <h3>На каие майноры хочешь</h3>
+    <h3>На какие майноры хочешь</h3>
     <%= form.select :whished_minors_id, Minor.all.collect { |minor| [minor.name, minor.id] }, {}, { multiple: true } %>
   </div>
   <div class="point">

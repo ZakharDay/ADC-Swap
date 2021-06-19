@@ -6,12 +6,14 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 
-import RegistrationContainer from '../containers/RegistrationContainer'
+import T_Registration from '../components/05_Templates/T_Registration'
 
 document.addEventListener('DOMContentLoaded', () => {
-  const props = document.getElementById('data').dataset.props
+  let props = document.getElementById('reactContainer').dataset.props
+  props = JSON.parse(props)
+
   ReactDOM.render(
-    <RegistrationContainer props={props} />,
+    <T_Registration {...props} />,
     document.body.appendChild(document.createElement('div'))
   )
 })

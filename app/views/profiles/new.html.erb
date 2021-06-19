@@ -20,13 +20,11 @@ data = {courses: [2,3],
 #     })
 #   end
 # end
-puts data %>
-<div id="data" data-props = "<%=data.as_json%>"></div>
+puts data
 
-<br>
-<br>
-<br>
-<h1>Базовая информация  </h1>
-<%#= javascript_pack_tag 'registration' %>
+%>
 
-<%= render 'registration_form', profile: @profile %>
+<%= javascript_pack_tag 'registration' %>
+<div id="reactContainer" data-props="<%=data.as_json.to_json %>"></div>
+
+<%#= render 'registration_form', profile: @profile %>

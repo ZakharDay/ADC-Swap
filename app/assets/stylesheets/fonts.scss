@@ -1,23 +1,20 @@
 @font-face {
-  font-family: 'PT-Root-UI';
-  src: asset-url('PT-Root-UI_Light') format('truetype');
-  font-weight: 100;
+  font-family: 'PT Root UI';
+  src: asset-url('PT-Root-UI_Regular.ttf');
+  src: local('PT Root UI'),
+    asset-url('PT-Root-UI_Regular.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: 'PT-Root-UI';
-  src: asset-url('PT-Root-UI_Regular') format('truetype');
-  font-weight: 200;
+  font-family: 'PT Root UI Medium';
+  src: asset-url('PT-Root-UI_Medium.ttf');
+  src: local('PT Root UI Medium'),
+    asset-url('PT-Root-UI_Medium.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: 'PT-Root-UI';
-  src: asset-url('PT-Root-UI_Medium') format('truetype');
-  font-weight: 300;
-}
-
-@font-face {
-  font-family: 'PT-Root-UI';
-  src: asset-url('PT-Root-UI_Bold') format('truetype');
-  font-weight: 400;
+  font-family: 'PT Root UI Bold';
+  src: asset-url('PT-Root-UI_Bold.ttf');
+  src: local('PT Root UI Bold'),
+    asset-url('PT-Root-UI_Bold.ttf') format('truetype');
 }

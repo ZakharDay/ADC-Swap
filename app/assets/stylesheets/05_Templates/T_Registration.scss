@@ -1,0 +1,33 @@
+.T_Registration {
+  .W_ContentArea {
+    width: 880px;
+    margin: 0 auto;
+  }
+
+  .W_FormField {
+    margin-bottom: 46px;
+  }
+
+  .M_HeadingWithDescriptor {
+    width: 360px;
+    margin-bottom: 26px;
+  }
+
+  .C_CourseAndCampus {
+    display: flex;
+
+    .M_Select {
+      &:nth-child(1) {
+        width: 180px;
+        margin-right: 12px;
+      }
+
+      &:nth-child(2) {
+        width: 688px;
+      }
+
+      // &:nth-child(3) {
+      // }
+    }
+  }
+}

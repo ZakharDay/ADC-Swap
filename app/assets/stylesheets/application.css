@@ -11,8 +11,12 @@
  * It is generally better to create a new file per style scope.
  *
  *= require reset
+ *= require vars
  *= require fonts
+ *= require basics
  *= require_tree ./05_Templates
+ *= require_tree ./04_Superorganisms
  *= require_tree ./03_Organisms
+ *= require_tree ./02_Molecules
  *= require_tree ./01_Atoms
  */
