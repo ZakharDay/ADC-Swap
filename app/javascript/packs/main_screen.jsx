@@ -9,7 +9,9 @@ import MainScreenContainer from '../containers/MainScreenContainer'
 
 document.addEventListener('DOMContentLoaded', () => {
   const props = JSON.parse(document.getElementById('data').dataset.props)
+
   console.log(props)
+
   ReactDOM.render(
     <MainScreenContainer props={props} />,
     document.body.appendChild(document.createElement('div'))
