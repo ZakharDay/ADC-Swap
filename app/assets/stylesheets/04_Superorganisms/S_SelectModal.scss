@@ -28,10 +28,16 @@
         position: absolute;
         top: 40px;
         right: 40px;
+        z-index: 1;
       }
 
       .M_HeadingWithDescriptor {
         margin-top: 40px;
+      }
+
+      .C_SelectOptions {
+        padding-right: 40px;
+        z-index: 2;
       }
 
       //

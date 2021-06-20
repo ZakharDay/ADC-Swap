@@ -7,12 +7,12 @@ export default class A_SelectOption extends React.PureComponent {
   }
 
   render() {
-    const { type, text, checked, handleClick } = this.props
+    const { type, text, checked, icon, handleClick } = this.props
 
     const classes = classnames({
       A_SelectOption: true,
       checked: checked,
-      [`${type}`]: true
+      [`${icon}`]: true
     })
 
     return (

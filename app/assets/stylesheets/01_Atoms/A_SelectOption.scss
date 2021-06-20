@@ -1,0 +1,19 @@
+.A_SelectOption {
+  padding: 16px 0px 16px 0px;
+  border-bottom: solid;
+  border-bottom-width: 0.5px;
+  border-bottom-color: var(--medium-gray);
+  display: flex;
+
+  &::before {
+    content: '';
+    width: 15px;
+    height: 15px;
+    background-size: cover;
+    margin: 0px 12px 0px 1px;
+  }
+
+  &.unselect::before {
+    background-image: image-url('unselect.svg');
+  }
+}

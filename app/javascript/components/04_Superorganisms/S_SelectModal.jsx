@@ -33,6 +33,7 @@ export default class S_SelectModal extends React.PureComponent {
           type={type}
           text={name}
           checked={checked}
+          icon="unselect"
           handleClick={() => console.log('click')}
           key={i}
         />
