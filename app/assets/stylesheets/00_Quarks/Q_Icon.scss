@@ -1,0 +1,9 @@
+.Q_Icon {
+  &.radioChecked {
+    background-image: image-url('select.svg');
+  }
+  ,
+  &.radioUnchecked {
+    background-image: image-url('unselect.svg');
+  }
+}

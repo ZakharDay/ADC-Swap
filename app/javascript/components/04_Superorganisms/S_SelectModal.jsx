@@ -7,6 +7,14 @@ import M_HeadingWithDescriptor from '../02_Molecules/M_HeadingWithDescriptor'
 export default class S_SelectModal extends React.PureComponent {
   constructor(props) {
     super(props)
+
+    this.state = {
+      option: props.option
+    }
+  }
+
+  changeOption = (option) => {
+    this.setState({ option: option })
   }
 
   render() {
@@ -16,25 +24,27 @@ export default class S_SelectModal extends React.PureComponent {
       descriptor,
       buttonText,
       optionList,
-      handleSubmit
+      handleSubmit,
+      field
     } = this.props
+
+    const { option } = this.state
 
     let optionElements = []
 
-    optionList.forEach((name, i) => {
+    optionList.forEach((minor, i) => {
       let checked = false
 
-      if (i === 3) {
+      if (i === option.id - 1) {
         checked = true
       }
 
       optionElements.push(
         <A_SelectOption
           type={type}
-          text={name}
+          text={minor.name}
           checked={checked}
-          icon="unselect"
-          handleClick={() => console.log('click')}
+          handleClick={() => this.changeOption(minor)}
           key={i}
         />
       )
@@ -47,7 +57,7 @@ export default class S_SelectModal extends React.PureComponent {
             <A_Button
               type="text"
               text={buttonText}
-              handleClick={handleSubmit}
+              handleClick={() => handleSubmit(field, this.state.option)}
             />
             <M_HeadingWithDescriptor
               heading={heading}

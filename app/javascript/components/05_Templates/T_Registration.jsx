@@ -11,27 +11,10 @@ export default class T_Registration extends React.PureComponent {
 
     this.state = {
       course: '',
-      campus: '',
-      yourMinor: '',
+      campus: { name: '' },
+      yourMinor: { name: '' },
       modal: 'none'
     }
-  }
-
-  renderModal = () => {
-    const { minors } = this.props
-
-    return (
-      <S_SelectModal
-        type="single"
-        heading="Выбери свой майнор"
-        descriptor="Выбранный майнор должен совпадать с реальным. Таким образом тебе будут отправлять запрос на обмен."
-        buttonText="Готово"
-        optionList={minors.map((minor) => {
-          return minor.name
-        })}
-        handleSubmit={() => this.toggleModal('none')}
-      />
-    )
   }
 
   toggleModal = (modalName) => {
@@ -40,6 +23,74 @@ export default class T_Registration extends React.PureComponent {
     this.setState({
       modal: modalName
     })
+  }
+
+  handleSubmit = (field, data) => {
+    let newState = Object.assign({}, this.state)
+    if (field == 'yourMinor') {
+      newState.yourMinor = data
+    }
+    if (field == 'course') {
+      newState.course = data.name
+    }
+    if (field == 'campus') {
+      newState.campus = data
+    }
+    newState.modal = 'none'
+    this.setState(newState)
+  }
+
+  renderModal = () => {
+    const { minors, cities } = this.props
+    const { modal, course, campus, yourMinor } = this.state
+    let modalData = {}
+
+    if (modal == 'yourMinor') {
+      modalData = {
+        type: 'single',
+        heading: 'Выбери свой майнор',
+        descriptor:
+          'Выбранный майнор должен совпадать с реальным. Таким образом тебе будут отправлять запрос на обмен.',
+        option: yourMinor,
+        optionList: minors.map((minor) => {
+          return { id: minor.id, name: minor.name }
+        })
+      }
+    } else if (modal == 'course') {
+      modalData = {
+        type: 'single',
+        heading: 'Выбери свой курс',
+        descriptor: 'Выбранный курс должен совпадать с реальным',
+        option: course,
+        optionList: [
+          { name: 2, id: 1 },
+          { name: 3, id: 2 }
+        ]
+      }
+    } else if (modal == 'campus') {
+      modalData = {
+        type: 'single',
+        heading: 'Выбери свой кампус',
+        descriptor: 'Выбранный кампус должен совпадать с реальным',
+        option: campus,
+        optionList: cities.map((city) => {
+          return { id: city.id, name: city.name }
+        })
+      }
+    }
+
+    return (
+      <S_SelectModal
+        type={modalData.type}
+        heading={modalData.heading}
+        descriptor={modalData.descriptor}
+        buttonText="Готово"
+        field={modal}
+        option={modalData.option}
+        optionList={modalData.optionList}
+        handleSubmit={this.handleSubmit}
+      />
+    )
   }
 
   render() {
@@ -63,15 +114,15 @@ export default class T_Registration extends React.PureComponent {
                 placeholder="Выбери курс"
                 icon="chevron"
                 value={course}
-                handleClick={() => this.toggleModal('none')}
+                handleClick={() => this.toggleModal('course')}
               />
 
               <M_Select
                 label="Кампус"
                 placeholder="Выбери город"
                 icon="chevron"
-                value={campus}
-                handleClick={() => this.toggleModal('none')}
+                value={campus.name}
+                handleClick={() => this.toggleModal('campus')}
               />
             </div>
           </div>
@@ -86,7 +137,7 @@ export default class T_Registration extends React.PureComponent {
               label="Твой майнор"
               placeholder="Выбери майнор"
               icon="chevron"
-              value={yourMinor}
+              value={yourMinor.name}
               handleClick={() => this.toggleModal('yourMinor')}
             />
           </div>

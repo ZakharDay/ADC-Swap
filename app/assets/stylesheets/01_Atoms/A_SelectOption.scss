@@ -11,9 +11,10 @@
     height: 15px;
     background-size: cover;
     margin: 0px 12px 0px 1px;
+    background-image: image-url('unselect.svg');
   }
 
-  &.unselect::before {
-    background-image: image-url('unselect.svg');
+  &.checked::before {
+    background-image: image-url('select.svg');
   }
 }
