@@ -13,6 +13,7 @@ export default class T_Registration extends React.PureComponent {
       course: '',
       campus: { name: '' },
       yourMinor: { name: '' },
+      wishedMinors: [],
       modal: 'none'
     }
   }
@@ -52,7 +53,7 @@ export default class T_Registration extends React.PureComponent {
         descriptor:
           'Выбранный майнор должен совпадать с реальным. Таким образом тебе будут отправлять запрос на обмен.',
         option: yourMinor,
-        optionList: minors.map((minor) => {
+        optionList: minors[campus.id].map((minor) => {
           return { id: minor.id, name: minor.name }
         })
       }
@@ -71,6 +72,16 @@ export default class T_Registration extends React.PureComponent {
       modalData = {
         type: 'single',
         heading: 'Выбери свой кампус',
+        descriptor: 'Выбранный кампус должен совпадать с реальным',
+        option: campus,
+        optionList: cities.map((city) => {
+          return { id: city.id, name: city.name }
+        })
+      }
+    } else if (modal == 'wishedMinors') {
+      modalData = {
+        type: 'single',
+        heading: 'Выбери желаемые майноры',
         descriptor: 'Выбранный кампус должен совпадать с реальным',
         option: campus,
         optionList: cities.map((city) => {
@@ -96,6 +107,8 @@ export default class T_Registration extends React.PureComponent {
   render() {
     const { course, campus, yourMinor, modal } = this.state
     const { minors } = this.props
+
+    const wilWeChoseOurMinor = campus.id ? true : false
 
     return (
       <div className="T_Registration">
@@ -136,6 +149,7 @@ export default class T_Registration extends React.PureComponent {
             <M_Select
               label="Твой майнор"
               placeholder="Выбери майнор"
+              isActive={wilWeChoseOurMinor}
               icon="chevron"
               value={yourMinor.name}
               handleClick={() => this.toggleModal('yourMinor')}
@@ -153,7 +167,7 @@ export default class T_Registration extends React.PureComponent {
               placeholder="Выбери несколько майноров"
               icon="chevron"
               value={yourMinor}
-              handleClick={() => console.log('bla')}
+              handleClick={() => this.toggleModal('wishedMinors')}
             />
           </div>
         </div>

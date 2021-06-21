@@ -1,10 +1,20 @@
 <%
 
-data = {courses: [2,3],
-        cities: City.all.collect{|city| city},
-        minors: Minor.all.collect{|minor| minor},
-        url: profile_path(@profile)
-        }
+data = {
+  cities: [],
+  minors: {},
+  url: profile_path(@profile)
+}
+
+City.all.each do |city|
+  id = city.id
+  data[:cities].push({id:id, name:city.name})
+  data[:minors][id] = []
+  city.minors.each do |minor|
+    data[:minors][id].push({id:minor.id, name: minor.name})
+  end
+end
+
 # ExchangeMinor.all.each do |exchange_minor|
 #   if exchange_minor.published
 #

@@ -6,12 +6,29 @@ import A_Text from '../01_Atoms/A_Text'
 export default class M_Select extends React.PureComponent {
   constructor(props) {
     super(props)
+
+    this.state = {
+      placeholder: props.placeholder
+    }
+  }
+
+  renderError = () => {
+    console.log('error')
+    this.setState({ placeholder: 'Ошибка' })
+    // return <h1>ОШИБКА</h1>
   }
 
   render() {
-    const { label, placeholder, value, icon, handleClick } = this.props
+    const { label, isActive, value, icon, handleClick } = this.props
+    const { placeholder } = this.state
     let text = placeholder
     let type = 'formFieldPlaceholder'
+
+    let clik = handleClick
+
+    if (isActive == false) {
+      clik = this.renderError
+    }
 
     if (value != '') {
       text = value
@@ -24,7 +41,7 @@ export default class M_Select extends React.PureComponent {
     })
 
     return (
-      <div className={classes} onClick={handleClick}>
+      <div className={classes} onClick={clik}>
         <A_Text text={label} type="formFieldLabel" />
         <A_Text text={text} type={type} />
       </div>

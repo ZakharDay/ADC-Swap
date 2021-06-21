@@ -14,6 +14,7 @@ export default class S_SelectModal extends React.PureComponent {
   }
 
   changeOption = (option) => {
+    console.log(option)
     this.setState({ option: option })
   }
 
@@ -35,7 +36,7 @@ export default class S_SelectModal extends React.PureComponent {
     optionList.forEach((minor, i) => {
       let checked = false
 
-      if (i === option.id - 1) {
+      if (i === optionList.indexOf(option)) {
         checked = true
       }
 
