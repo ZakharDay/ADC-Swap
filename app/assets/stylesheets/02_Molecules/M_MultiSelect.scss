@@ -1,0 +1,40 @@
+.M_MultiSelect {
+  position: relative;
+  padding: 9px 42px 9px 14px;
+  border-radius: 14px;
+  background-color: var(--light-gray);
+  cursor: pointer;
+
+  &::after {
+    position: absolute;
+    top: 20px;
+    right: 14px;
+    display: block;
+    content: '';
+    width: 18px;
+    height: 18px;
+    background-size: cover;
+  }
+
+  &.chevron::after {
+    background-image: image-url('chevron.svg');
+  }
+
+  .A_Text {
+    font-size: 14px;
+    line-height: 130%;
+
+    &.formFieldLabel {
+      margin-bottom: 4px;
+      font-family: var(--font-family-bold);
+    }
+
+    &.formFieldPlaceholder {
+      color: var(--asphalt);
+    }
+
+    &.formFieldValue {
+      //
+    }
+  }
+}
