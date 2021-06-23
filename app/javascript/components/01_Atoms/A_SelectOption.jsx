@@ -11,9 +11,9 @@ export default class A_SelectOption extends React.PureComponent {
 
     const classes = classnames({
       A_SelectOption: true,
-      checked: checked
+      checked: checked,
+      [`${type}`]: true
     })
-    // [`${icon}`]: true
 
     return (
       <div className={classes} onClick={handleClick}>

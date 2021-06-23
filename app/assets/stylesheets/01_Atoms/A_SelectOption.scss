@@ -11,10 +11,20 @@
     height: 15px;
     background-size: cover;
     margin: 0px 12px 0px 1px;
+  }
+
+  &.single::before {
     background-image: image-url('unselect.svg');
   }
 
-  &.checked::before {
+  &.single.checked::before {
     background-image: image-url('select.svg');
+  }
+  &.multi::before {
+    background-image: image-url('checkboxUnselected.svg');
+  }
+
+  &.multi.checked::before {
+    background-image: image-url('checkboxSelected.svg');
   }
 }
