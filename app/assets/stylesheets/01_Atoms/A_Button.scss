@@ -1,8 +1,20 @@
 .A_Button {
+  cursor: pointer;
   &.text {
     font-size: 18px;
     line-height: 132%;
     color: var(--blue-sky);
-    cursor: pointer;
+  }
+  &.block {
+    display: inline-block;
+    font-family: 'PT Root UI Bold';
+    color: var(--white);
+    background-color: var(--blue-sky);
+    border-radius: 14px;
+    padding: 18px 40px;
+  }
+
+  &:active {
+    opacity: 0.5;
   }
 }

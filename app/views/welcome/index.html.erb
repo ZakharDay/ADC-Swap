@@ -28,14 +28,17 @@
 
 
 
-  <%# <%= render 'button', text: 'Войти', link: welcome_index_path %> %>
+  <%= render 'button', text: 'Войти', link: welcome_index_path %> 
 
 <% else %>
+<%= javascript_pack_tag 'landing' %>
+
   <h4 class="text">Auth</h4>
 
   <%= form_for(@user, url: auth_welcome_index_path, id: 'authCodeForm') do |f| %>
     <div class="field">
-      <%= f.label :email %><br />
+      <%= f.label :email %>
+      <br />
       <%= f.email_field :email, id: "emailField", autofocus: true, autocomplete: "email" %>
     </div>
 
@@ -50,7 +53,8 @@
     <%= f.hidden_field :email, id: "hiddenEmailField", autofocus: true, autocomplete: "email" %>
 
     <div class="field">
-      <%= f.label :password %><br />
+      <%= f.label :password %>
+      <br />
       <%= f.password_field :password, autocomplete: "current-password" %>
     </div>
 

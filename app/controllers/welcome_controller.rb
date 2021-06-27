@@ -1,4 +1,5 @@
 class WelcomeController < ApplicationController
+  layout "registration"
   def index
     if user_signed_in?
       @user = current_user

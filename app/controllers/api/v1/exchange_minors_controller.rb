@@ -38,8 +38,7 @@ class Api::V1::ExchangeMinorsController < Api::V1::ApplicationController
 
 
     exchange_minors.each do |exchange_minor|
-      # TODO Почему published — настройка профиля, а не exchange_minor?
-      if exchange_minor.profile.published
+      if exchange_minor.published
         data = exchange_minor.card_index
         data[:url] = api_v1_exchange_minor_url(exchange_minor)
         exchange_minors_data << data

@@ -9,11 +9,11 @@
 <br>
 
 <h3>your wished minors</h3>
-<%# <%= @profile.exchange_minors.to_json %> %>
-<%# <% @profile.exchange_minor.whished_minors.each do |whished_minor|%> %>
-  <%# <%= Minor.find(whished_minor.minor_id).name %> %>
-  <!-- <br> -->
-<%# <% end %> %>
+<% e = @profile.exchange_minors.first %>
+<% e.whished_minors.each do |whished_minor|%>
+  <%= Minor.find(whished_minor.minor_id).name %>
+  <br>
+<% end %>
 <br>
 <br>
 <% exchange = ExchangeMinor.where(profile_id: @profile.id).first %>

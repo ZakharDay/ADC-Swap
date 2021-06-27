@@ -1,0 +1,89 @@
+.M_LandingBlock {
+  z-index: 2;
+  width: 543px;
+  position: relative;
+
+  .InputWrapper {
+    display: flex;
+    margin-top: 40px;
+    .A_Input {
+      margin-right: 22px;
+      width: 290px;
+    }
+  }
+
+  .Q_LandingBlockHeading {
+    font-size: 40px;
+    color: #00203e;
+    line-height: 48px;
+    font-family: 'PT Root UI Bold';
+    margin-bottom: 20px;
+  }
+  .Q_LandingBlockText {
+    font-size: 20px;
+    color: #00203e;
+    line-height: 24px;
+  }
+
+  &:nth-child(even) {
+    align-self: flex-end;
+  }
+  &:nth-child(1) {
+    margin-top: 232px;
+    .Q_LandingBlockHeading {
+      font-size: 70px;
+    }
+    .Q_LandingBlockText {
+      font-size: 25px;
+      line-height: 35px;
+    }
+    .img {
+      position: absolute;
+      height: 600px;
+      width: 932px;
+      background-image: image-url('landing/1.png');
+      background-repeat: no-repeat;
+      right: -1056px;
+      top: -98px;
+      transform: rotate(7.73deg);
+    }
+  }
+  &:nth-child(2) {
+    margin-top: 440px;
+    .img {
+      position: absolute;
+      height: 800px;
+      width: 540px;
+      background-image: image-url('landing/second.png');
+      background-repeat: no-repeat;
+      right: 50vw;
+      top: -282px;
+    }
+  }
+  &:nth-child(3) {
+    margin-top: 334px;
+    .img {
+      position: absolute;
+      height: 800px;
+      width: 540px;
+      background-image: image-url('landing/third.png');
+      background-repeat: no-repeat;
+      right: -58vw;
+      top: -100px;
+      transform: rotate(7.73deg);
+    }
+  }
+  &:nth-child(4) {
+    margin-top: 582px;
+    .img {
+      position: absolute;
+      height: 800px;
+      width: 540px;
+      background-image: image-url('landing/fourth.png');
+      background-repeat: no-repeat;
+      right: -58vw;
+      top: -100px;
+      transform: rotate(7.73deg);
+    }
+  }
+}
