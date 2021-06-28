@@ -1,32 +1,23 @@
 import classnames from 'classnames'
 import React from 'react'
 
-import A_Button from '../01_Atoms/A_Button'
 import A_Input from '../01_Atoms/A_Input'
+import A_Button from '../01_Atoms/A_Button'
 
-export default class M_LandingBlock extends React.Component {
+export default class M_LandingBanner extends React.Component {
   constructor(props) {
     super(props)
   }
   render() {
-    const {
-      isFirst,
-      headingContent,
-      text,
-      handleClick,
-      handleChange
-    } = this.props
-
+    const { text, type, handleClick, handleChange } = this.props
     const classes = classnames({
-      M_LandingBlock: true
+      M_LandingBanner: true,
+      [`${type}`]: true
     })
-
     return (
       <div className={classes}>
-        <div className="img"></div>
-        <div className="Q_LandingBlockHeading">{headingContent}</div>
-        <div className="Q_LandingBlockText">{text}</div>
-        {isFirst ? (
+        <div className="content">{text}</div>
+        {type == 'input' ? (
           <div className="InputWrapper">
             <A_Input
               placeholder="guest.hse.ru"
@@ -41,7 +32,8 @@ export default class M_LandingBlock extends React.Component {
           </div>
         ) : (
           ''
-        )}
+        )}{' '}
+        {type == 'img' ? <div className="img"></div> : ''}
       </div>
     )
   }

@@ -1,8 +1,37 @@
 .A_Input {
   font-size: 14px;
-  padding: 20px 0 20px 14px;
-  background-color: var(--white);
-  color: var(--asphalt);
+  color: var(--blak);
   border-radius: 15px;
   display: inline-block;
+  outline: none;
+  border: 0;
+  &::placeholder {
+    color: var(--asphalt);
+  }
+
+  &.simple {
+    padding: 20px 0 20px 14px;
+    background-color: var(--white);
+  }
+  &.withHeader {
+    padding: 9px 14px;
+    background-color: var(--light-gray);
+    .inputTitle {
+      font-family: 'PT Root UI Bold';
+      font-size: 14px;
+      margin-bottom: 3px;
+    }
+    .input {
+      font-size: 14px;
+      background-color: inherit;
+      color: var(--blak);
+      border-radius: 15px;
+      display: inline-block;
+      outline: none;
+      border: 0;
+      &::placeholder {
+        color: var(--asphalt);
+      }
+    }
+  }
 }

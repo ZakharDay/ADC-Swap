@@ -66,6 +66,7 @@ class Api::V1::ExchangeMinorsController < Api::V1::ApplicationController
         exchange_minor_data[:request] = false
       end
     end
+    exchange_minor_data[:whishedMinors] = exchange_minor.whished_minors.collect { |wm| wm.minor.name }
 
     puts exchange_minor_data
 

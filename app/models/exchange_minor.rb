@@ -11,9 +11,6 @@ class ExchangeMinor < ApplicationRecord
       address: minor.address,
       credits: minor.credits,
       minor: minor.name,
-      # whishedMinors: profile.whished_minors.collect { |wm| wm.minor.name.truncate(18) }
-
-      # url: url нужно дополнить в контроллере
     }
   end
 

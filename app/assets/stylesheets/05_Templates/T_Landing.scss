@@ -6,17 +6,16 @@
   display: flex;
   flex-direction: column;
   position: relative;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-image: image-url('landing/background.png');
 
-  .vave {
-    z-index: 1;
-    position: absolute;
-    width: 100%;
-    height: 118vw;
-    top: 290px;
-    left: 0;
-    background-repeat: no-repeat;
-    background-size: contain;
-    mix-blend-mode: overlay;
-    background-image: image-url('landing/vave.png');
+  .BannersWrapper {
+    margin: 402px auto 0;
+    display: flex;
+
+    .M_LandingBanner:nth-child(1) {
+      margin-right: 14px;
+    }
   }
 }

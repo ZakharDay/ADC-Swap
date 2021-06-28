@@ -64,26 +64,24 @@
     margin-top: 334px;
     .img {
       position: absolute;
-      height: 800px;
-      width: 540px;
+      height: 535px;
+      width: 795px;
       background-image: image-url('landing/third.png');
       background-repeat: no-repeat;
-      right: -58vw;
-      top: -100px;
-      transform: rotate(7.73deg);
+      right: -676px;
+      top: -28px;
     }
   }
   &:nth-child(4) {
     margin-top: 582px;
     .img {
       position: absolute;
-      height: 800px;
-      width: 540px;
+      height: 627px;
+      width: 706px;
       background-image: image-url('landing/fourth.png');
       background-repeat: no-repeat;
-      right: -58vw;
-      top: -100px;
-      transform: rotate(7.73deg);
+      left: -65vw;
+      top: -120px;
     }
   }
 }

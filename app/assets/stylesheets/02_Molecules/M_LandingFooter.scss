@@ -1,0 +1,31 @@
+.M_LandingFooter {
+  display: flex;
+  width: 90vw;
+  align-items: center;
+  justify-content: space-between;
+
+  // padding: 150px 0 82px 82px;
+  padding: 150px 0 82px 0;
+  font-size: 20px;
+  color: var(--asphalt);
+
+  .img:first-child {
+    background-image: image-url('landing/Crowswap_logo.png');
+    width: 165px;
+    height: 39px;
+  }
+  .logoWrapper {
+    display: flex;
+    .img:nth-child(1) {
+      background-image: image-url('landing/ADC_Logo.png');
+      width: 100px;
+      height: 39px;
+      margin-right: 23px;
+    }
+    .img:nth-child(2) {
+      background-image: image-url('landing/HSE_Logo.png');
+      width: 100px;
+      height: 37px;
+    }
+  }
+}

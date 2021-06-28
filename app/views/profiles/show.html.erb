@@ -8,21 +8,36 @@
 
 <br>
 
-<h3>your wished minors</h3>
-<% e = @profile.exchange_minors.first %>
-<% e.whished_minors.each do |whished_minor|%>
-  <%= Minor.find(whished_minor.minor_id).name %>
+<br>
+<br>
+<br>
+<% if @profile.exchange_minors.length !=0 %>
+  <h3>your wished minors</h3>
+  <% e = @profile.exchange_minors.first %>
+    <% e.whished_minors.each do |whished_minor|%>
+    <%= Minor.find(whished_minor.minor_id).name %>
   <br>
-<% end %>
-<br>
-<br>
-<% exchange = ExchangeMinor.where(profile_id: @profile.id).first %>
-<% if exchange.published %>
+  <% end %>
+  <%= @profile.exchange_minors.first.to_json %>
+  <br>
+  <% exchange = ExchangeMinor.where(profile_id: @profile.id).first %>
+  <% if exchange.published %>
   Ваше объявление опубликовано, вы можете получать предложения об обмене от других студентов
-<% else %>
+  <% else %>
   Ваше объявление не опубликовано, вы не будете получать предложения об обмене от других студентов
+  <% end %>
+  <br>
+  <%= link_to("Удалить объявление", exchange_minor_url, method: :delete) %>
+<% else %>
+  Надо создать новое объявление
+  <% ArchivedExchange.all.each do |ex| %>
+    <%= ex.to_json %>
+  <% end %>
 <% end %>
 <br>
+<br>
+<br>
+
 
 <%= link_to('settings', edit_profile_path(current_user))  %> |
 <%= link_to('log oUT', destroy_user_session_path, method: :delete) %>

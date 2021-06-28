@@ -1,0 +1,33 @@
+.M_LandingBanner {
+  width: 548px;
+
+  padding: 40px 30px 38px 35px;
+  border-radius: 20px;
+
+  .content {
+    color: var(--white);
+    font-size: 25px;
+    line-height: 30px;
+    font-family: 'PT Root UI Medium';
+  }
+
+  &.input {
+    background-image: image-url('landing/firstBanner.png');
+    .InputWrapper {
+      width: 100%;
+      display: flex;
+      margin-top: 30px;
+      .A_Input {
+        margin-right: 22px;
+        width: 290px;
+      }
+      .A_Button {
+        padding: 17px 20px;
+        background-color: #5bb1ff;
+      }
+    }
+  }
+  &.img {
+    background-image: image-url('landing/secondBanner.png');
+  }
+}

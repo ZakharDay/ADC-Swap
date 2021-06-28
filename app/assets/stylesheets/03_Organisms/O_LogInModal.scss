@@ -1,0 +1,55 @@
+.O_LogInModal {
+  position: fixed;
+
+  background-color: rgba(0, 0, 0, 0.2);
+  z-index: 5;
+  top: 0;
+  left: 0;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  .W_ModalWrapper {
+    position: relative;
+    width: 880px;
+    max-height: 450px;
+    margin: auto;
+    border-radius: 14px;
+    background-color: var(--white);
+    overflow: hidden;
+
+    .W_ModalContainer {
+      background-image: image-url('landing/modalBackground.png');
+      width: calc(100% + 40px);
+      height: 410px;
+      padding: 0 40px 40px;
+      overflow-y: scroll;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background-size: cover;
+
+      .closeButton {
+        background-image: image-url('landing/close.png');
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+        position: absolute;
+        background-repeat: no-repeat;
+        top: 20px;
+        right: 40px;
+      }
+      .header {
+        font-family: 'PT Root UI Bold';
+        font-size: 20px;
+        line-height: 26px;
+        align-items: center;
+      }
+      .A_Input {
+        width: 300px;
+        margin: 30px 0 40px;
+      }
+    }
+  }
+}

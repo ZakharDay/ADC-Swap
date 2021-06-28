@@ -1,5 +1,6 @@
 require 'curb'
 
+@names_adj_url = 'http://dict.ruslang.ru/magn.php?act=list&list=%CF%F0%E8%EB%E0%E3%E0%F2%E5%EB%FC%ED%EE%E5'
 @minor_list_url = 'https://electives.hse.ru/catalog2019'
 @minor_start_year = 2020
 @program_list_url = 'https://www.hse.ru/education/'
@@ -7,6 +8,7 @@ require 'curb'
 
 def seed
   clean_db
+  get_names
   get_program_list
   get_minor_list
 
@@ -16,8 +18,8 @@ def seed
   create_exchange_minor(Profile.first)
   create_exchange_minor(Profile.last)
   create_exchange_request
-  # approve_exchange_request
 
+  # approve_exchange_request
   # create_wished_minors
 end
 
@@ -25,6 +27,42 @@ def clean_db
   Rake::Task['db:drop'].invoke
   Rake::Task['db:create'].invoke
   Rake::Task['db:migrate'].invoke
+end
+
+def get_names
+  body_html = Nokogiri::HTML(open(@names_adj_url).read)
+  text_html = body_html.css('a')
+
+  names = []
+
+  text_html.each do |a|
+    if a['href']
+      names.push(a.content)
+    end
+  end
+
+  names =  names[7..]
+
+  names.each do |name|
+    if name.length != 1
+      name = name.capitalize()
+      if name[-2..] == 'ый'
+        name = name[..-3] + 'ая'
+      elsif name[-2..] == 'ий'
+        name = name[..-3] + 'ая'
+      elsif name[-2..] == 'ой'
+        name = name[..-3] + 'ая'
+      elsif name[-2..] == 'ся'
+        name = name[..-4] + 'ая'
+      elsif name[-2..] == 'но'
+        name = name[..-3] + 'ая'
+      elsif name[-2..] == 'ов'
+        name = name + 'а'
+      end
+    end
+    Name.create!(name: name + ' ворона')
+  end
+
 end
 
 def get_program_list
@@ -383,14 +421,15 @@ def create_user(number)
 end
 
 def create_profile(user)
-  p = Profile.create!(
+  p = Profile.update(
     education_year: 2,
     program_id: Program.first.id,
     minor_id: Minor.first.id,
     user_id: user.id,
+    user_id: "Ворона #{user.id}",
   )
 
-  puts "Profile just created with id #{p.id} for user with id #{p.user.id}"
+  # puts "Profile just created with id #{p.id} for user with id #{user.id}"
 end
 
 def create_wished_minors(exchange)
